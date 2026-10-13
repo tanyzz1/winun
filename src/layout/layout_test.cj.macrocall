@@ -1,0 +1,431 @@
+package winun.layout
+
+import std.unittest.*
+import std.unittest.testmacro.*
+import winun.domain.*
+
+/* ===== Emitted by MacroCall @Test in layout_test.cj:7:1 ===== */
+/* 7.1 */@Attribute[TEST_GENERATED] class TestCase_testGridTwoColumns <: TestClass {
+/* 7.2 */    init() {
+/* 7.3 */    }
+/* 7.4 */    private func classConfiguration(): Configuration {
+/* 7.5 */        let configuration = Configuration()
+/* 7.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 7.7 */        
+/* 7.8 */        return configuration
+/* 7.9 */    }
+/* 7.10 */    public override func asTestSuite(): TestSuite {
+/* 7.11 */        
+/* 7.12 */        let suiteConfiguration = classConfiguration()
+/* 7.13 */        let suiteBuilder = TestSuite.builder("TestCase_testGridTwoColumns").configure(suiteConfiguration)
+/* 7.14 */        
+/* 7.15 */        { => let caseConfig = Configuration()
+/* 7.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 7.17 */            
+/* 7.18 */            let testGridTwoColumnsTestFunc = { => testGridTwoColumns();() }
+/* 7.19 */            suiteBuilder.add(
+/* 7.20 */            UnitTestCase.create(
+/* 7.21 */            "testGridTwoColumns",
+/* 7.22 */            configuration: caseConfig,
+/* 7.23 */            body: testGridTwoColumnsTestFunc
+/* 7.24 */            )
+/* 7.25 */            )
+/* 7.26 */            
+/* 7.27 */        }()
+/* 7.28 */        
+/* 7.29 */        return suiteBuilder.build()
+/* 7.30 */    }
+/* 7.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 7.32 */        throw Exception("Unreachable code")
+/* 7.33 */    }
+/* 7.34 */}
+/* 7.35 */func testGridTwoColumns() {
+/* 7.36 */    let spec = LayoutSpec()
+/* 7.37 */    spec.kind = LayoutKind.Grid
+/* 7.38 */    spec.columns = 2
+/* 7.39 */    spec.rows = 1
+/* 7.40 */    spec.gap = 0
+/* 7.41 */    spec.margins = Margins()
+/* 7.42 */    let area = Rect(left: 0, top: 0, right: 1000, bottom: 500)
+/* 7.43 */    let ps = solve([WindowId(value: 1), WindowId(value: 2)], spec, area)
+/* 7.44 */    expectEqual("ps.size", "2", ps.size, 2, isDelta: false,)
+/* 7.45 */    expectEqual("ps[0].rect.left", "0", ps[0].rect.left, 0, isDelta: false,)
+/* 7.46 */    expectEqual("ps[0].rect.right", "500", ps[0].rect.right, 500, isDelta: false,)
+/* 7.47 */    expectEqual("ps[1].rect.left", "500", ps[1].rect.left, 500, isDelta: false,)
+/* 7.48 */    expectEqual("ps[1].rect.right", "1000", ps[1].rect.right, 1000, isDelta: false,)
+/* 7.49 */    expectEqual("ps[0].rect.bottom", "500", ps[0].rect.bottom, 500, isDelta: false,)
+/* 7.50 */}
+/* 7.51 */
+/* 7.52 */
+/* 7.53 */interface TestPackageExtension_TestCase_testGridTwoColumns {
+/* 7.54 */    func registerTestCase_testGridTwoColumns(): Unit
+/* 7.55 */}
+/* 7.56 */extend TestPackage <: TestPackageExtension_TestCase_testGridTwoColumns {
+/* 7.57 */    @Attribute[TEST_REGISTER]
+/* 7.58 */    public func registerTestCase_testGridTwoColumns() {
+/* 7.59 */        registerSuite({ => TestCase_testGridTwoColumns().asTestSuite() })
+/* 7.60 */    }
+/* 7.61 */}
+/* 7.62 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in layout_test.cj:25:1 ===== */
+/* 25.1 */@Attribute[TEST_GENERATED] class TestCase_testGridGapAndMargins <: TestClass {
+/* 25.2 */    init() {
+/* 25.3 */    }
+/* 25.4 */    private func classConfiguration(): Configuration {
+/* 25.5 */        let configuration = Configuration()
+/* 25.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 25.7 */        
+/* 25.8 */        return configuration
+/* 25.9 */    }
+/* 25.10 */    public override func asTestSuite(): TestSuite {
+/* 25.11 */        
+/* 25.12 */        let suiteConfiguration = classConfiguration()
+/* 25.13 */        let suiteBuilder = TestSuite.builder("TestCase_testGridGapAndMargins").configure(suiteConfiguration)
+/* 25.14 */        
+/* 25.15 */        { => let caseConfig = Configuration()
+/* 25.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 25.17 */            
+/* 25.18 */            let testGridGapAndMarginsTestFunc = { => testGridGapAndMargins();() }
+/* 25.19 */            suiteBuilder.add(
+/* 25.20 */            UnitTestCase.create(
+/* 25.21 */            "testGridGapAndMargins",
+/* 25.22 */            configuration: caseConfig,
+/* 25.23 */            body: testGridGapAndMarginsTestFunc
+/* 25.24 */            )
+/* 25.25 */            )
+/* 25.26 */            
+/* 25.27 */        }()
+/* 25.28 */        
+/* 25.29 */        return suiteBuilder.build()
+/* 25.30 */    }
+/* 25.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 25.32 */        throw Exception("Unreachable code")
+/* 25.33 */    }
+/* 25.34 */}
+/* 25.35 */func testGridGapAndMargins() {
+/* 25.36 */    let spec = LayoutSpec()
+/* 25.37 */    spec.kind = LayoutKind.Grid
+/* 25.38 */    spec.columns = 2
+/* 25.39 */    spec.rows = 1
+/* 25.40 */    spec.gap = 20
+/* 25.41 */    spec.margins = Margins(left: 10, top: 10, right: 10, bottom: 10)
+/* 25.42 */    let area = Rect(left: 0, top: 0, right: 1000, bottom: 520)
+/* 25.43 */    let ps = solve([WindowId(value: 1), WindowId(value: 2)], spec, area)
+/* 25.44 */    expectEqual("ps[0].rect.left", "10", ps[0].rect.left, 10, isDelta: false,)
+/* 25.45 */    expectEqual("ps[0].rect.right", "490", ps[0].rect.right, 490, isDelta: false,)
+/* 25.46 */    expectEqual("ps[1].rect.left", "510", ps[1].rect.left, 510, isDelta: false,)
+/* 25.47 */    expectEqual("ps[1].rect.right", "990", ps[1].rect.right, 990, isDelta: false,)
+/* 25.48 */    expectEqual("ps[0].rect.top", "10", ps[0].rect.top, 10, isDelta: false,)
+/* 25.49 */    expectEqual("ps[0].rect.bottom", "510", ps[0].rect.bottom, 510, isDelta: false,)
+/* 25.50 */}
+/* 25.51 */
+/* 25.52 */
+/* 25.53 */interface TestPackageExtension_TestCase_testGridGapAndMargins {
+/* 25.54 */    func registerTestCase_testGridGapAndMargins(): Unit
+/* 25.55 */}
+/* 25.56 */extend TestPackage <: TestPackageExtension_TestCase_testGridGapAndMargins {
+/* 25.57 */    @Attribute[TEST_REGISTER]
+/* 25.58 */    public func registerTestCase_testGridGapAndMargins() {
+/* 25.59 */        registerSuite({ => TestCase_testGridGapAndMargins().asTestSuite() })
+/* 25.60 */    }
+/* 25.61 */}
+/* 25.62 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in layout_test.cj:43:1 ===== */
+/* 43.1 */@Attribute[TEST_GENERATED] class TestCase_testRatioSplit <: TestClass {
+/* 43.2 */    init() {
+/* 43.3 */    }
+/* 43.4 */    private func classConfiguration(): Configuration {
+/* 43.5 */        let configuration = Configuration()
+/* 43.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 43.7 */        
+/* 43.8 */        return configuration
+/* 43.9 */    }
+/* 43.10 */    public override func asTestSuite(): TestSuite {
+/* 43.11 */        
+/* 43.12 */        let suiteConfiguration = classConfiguration()
+/* 43.13 */        let suiteBuilder = TestSuite.builder("TestCase_testRatioSplit").configure(suiteConfiguration)
+/* 43.14 */        
+/* 43.15 */        { => let caseConfig = Configuration()
+/* 43.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 43.17 */            
+/* 43.18 */            let testRatioSplitTestFunc = { => testRatioSplit();() }
+/* 43.19 */            suiteBuilder.add(
+/* 43.20 */            UnitTestCase.create(
+/* 43.21 */            "testRatioSplit",
+/* 43.22 */            configuration: caseConfig,
+/* 43.23 */            body: testRatioSplitTestFunc
+/* 43.24 */            )
+/* 43.25 */            )
+/* 43.26 */            
+/* 43.27 */        }()
+/* 43.28 */        
+/* 43.29 */        return suiteBuilder.build()
+/* 43.30 */    }
+/* 43.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 43.32 */        throw Exception("Unreachable code")
+/* 43.33 */    }
+/* 43.34 */}
+/* 43.35 */func testRatioSplit() {
+/* 43.36 */    let spec = LayoutSpec()
+/* 43.37 */    spec.kind = LayoutKind.Ratio
+/* 43.38 */    spec.ratios =[0.7, 0.3]
+/* 43.39 */    spec.gap = 0
+/* 43.40 */    let area = Rect(left: 0, top: 0, right: 1000, bottom: 400)
+/* 43.41 */    let ps = solve([WindowId(value: 1), WindowId(value: 2)], spec, area)
+/* 43.42 */    expectEqual("ps[0].rect.right", "700", ps[0].rect.right, 700, isDelta: false,)
+/* 43.43 */    expectEqual("ps[1].rect.left", "700", ps[1].rect.left, 700, isDelta: false,)
+/* 43.44 */    expectEqual("ps[1].rect.right", "1000", ps[1].rect.right, 1000, isDelta: false,)
+/* 43.45 */}
+/* 43.46 */
+/* 43.47 */
+/* 43.48 */interface TestPackageExtension_TestCase_testRatioSplit {
+/* 43.49 */    func registerTestCase_testRatioSplit(): Unit
+/* 43.50 */}
+/* 43.51 */extend TestPackage <: TestPackageExtension_TestCase_testRatioSplit {
+/* 43.52 */    @Attribute[TEST_REGISTER]
+/* 43.53 */    public func registerTestCase_testRatioSplit() {
+/* 43.54 */        registerSuite({ => TestCase_testRatioSplit().asTestSuite() })
+/* 43.55 */    }
+/* 43.56 */}
+/* 43.57 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in layout_test.cj:56:1 ===== */
+/* 56.1 */@Attribute[TEST_GENERATED] class TestCase_testAnchorLeftHalf <: TestClass {
+/* 56.2 */    init() {
+/* 56.3 */    }
+/* 56.4 */    private func classConfiguration(): Configuration {
+/* 56.5 */        let configuration = Configuration()
+/* 56.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 56.7 */        
+/* 56.8 */        return configuration
+/* 56.9 */    }
+/* 56.10 */    public override func asTestSuite(): TestSuite {
+/* 56.11 */        
+/* 56.12 */        let suiteConfiguration = classConfiguration()
+/* 56.13 */        let suiteBuilder = TestSuite.builder("TestCase_testAnchorLeftHalf").configure(suiteConfiguration)
+/* 56.14 */        
+/* 56.15 */        { => let caseConfig = Configuration()
+/* 56.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 56.17 */            
+/* 56.18 */            let testAnchorLeftHalfTestFunc = { => testAnchorLeftHalf();() }
+/* 56.19 */            suiteBuilder.add(
+/* 56.20 */            UnitTestCase.create(
+/* 56.21 */            "testAnchorLeftHalf",
+/* 56.22 */            configuration: caseConfig,
+/* 56.23 */            body: testAnchorLeftHalfTestFunc
+/* 56.24 */            )
+/* 56.25 */            )
+/* 56.26 */            
+/* 56.27 */        }()
+/* 56.28 */        
+/* 56.29 */        return suiteBuilder.build()
+/* 56.30 */    }
+/* 56.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 56.32 */        throw Exception("Unreachable code")
+/* 56.33 */    }
+/* 56.34 */}
+/* 56.35 */func testAnchorLeftHalf() {
+/* 56.36 */    let spec = LayoutSpec()
+/* 56.37 */    spec.kind = LayoutKind.Anchor
+/* 56.38 */    spec.anchor = AnchorKind.Left
+/* 56.39 */    spec.sizePercent = Some(Size(width: 50, height: 100))
+/* 56.40 */    let area = Rect(left: 0, top: 0, right: 1000, bottom: 600)
+/* 56.41 */    let ps = solve([WindowId(value: 7)], spec, area)
+/* 56.42 */    expectEqual("ps.size", "1", ps.size, 1, isDelta: false,)
+/* 56.43 */    expectEqual("ps[0].rect.left", "0", ps[0].rect.left, 0, isDelta: false,)
+/* 56.44 */    expectEqual("ps[0].rect.right", "500", ps[0].rect.right, 500, isDelta: false,)
+/* 56.45 */    expectEqual("ps[0].rect.bottom", "600", ps[0].rect.bottom, 600, isDelta: false,)
+/* 56.46 */}
+/* 56.47 */
+/* 56.48 */
+/* 56.49 */interface TestPackageExtension_TestCase_testAnchorLeftHalf {
+/* 56.50 */    func registerTestCase_testAnchorLeftHalf(): Unit
+/* 56.51 */}
+/* 56.52 */extend TestPackage <: TestPackageExtension_TestCase_testAnchorLeftHalf {
+/* 56.53 */    @Attribute[TEST_REGISTER]
+/* 56.54 */    public func registerTestCase_testAnchorLeftHalf() {
+/* 56.55 */        registerSuite({ => TestCase_testAnchorLeftHalf().asTestSuite() })
+/* 56.56 */    }
+/* 56.57 */}
+/* 56.58 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in layout_test.cj:70:1 ===== */
+/* 70.1 */@Attribute[TEST_GENERATED] class TestCase_testAbsoluteCells <: TestClass {
+/* 70.2 */    init() {
+/* 70.3 */    }
+/* 70.4 */    private func classConfiguration(): Configuration {
+/* 70.5 */        let configuration = Configuration()
+/* 70.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 70.7 */        
+/* 70.8 */        return configuration
+/* 70.9 */    }
+/* 70.10 */    public override func asTestSuite(): TestSuite {
+/* 70.11 */        
+/* 70.12 */        let suiteConfiguration = classConfiguration()
+/* 70.13 */        let suiteBuilder = TestSuite.builder("TestCase_testAbsoluteCells").configure(suiteConfiguration)
+/* 70.14 */        
+/* 70.15 */        { => let caseConfig = Configuration()
+/* 70.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 70.17 */            
+/* 70.18 */            let testAbsoluteCellsTestFunc = { => testAbsoluteCells();() }
+/* 70.19 */            suiteBuilder.add(
+/* 70.20 */            UnitTestCase.create(
+/* 70.21 */            "testAbsoluteCells",
+/* 70.22 */            configuration: caseConfig,
+/* 70.23 */            body: testAbsoluteCellsTestFunc
+/* 70.24 */            )
+/* 70.25 */            )
+/* 70.26 */            
+/* 70.27 */        }()
+/* 70.28 */        
+/* 70.29 */        return suiteBuilder.build()
+/* 70.30 */    }
+/* 70.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 70.32 */        throw Exception("Unreachable code")
+/* 70.33 */    }
+/* 70.34 */}
+/* 70.35 */func testAbsoluteCells() {
+/* 70.36 */    let spec = LayoutSpec()
+/* 70.37 */    spec.kind = LayoutKind.Absolute
+/* 70.38 */    spec.cells =[Rect(left: 0, top: 0, right: 50, bottom: 50), Rect(left: 50, top: 50, right: 100, bottom: 100)]
+/* 70.39 */    let area = Rect(left: 0, top: 0, right: 1000, bottom: 1000)
+/* 70.40 */    let ps = solve([WindowId(value: 1), WindowId(value: 2)], spec, area)
+/* 70.41 */    expectEqual("ps[0].rect.right", "500", ps[0].rect.right, 500, isDelta: false,)
+/* 70.42 */    expectEqual("ps[1].rect.left", "500", ps[1].rect.left, 500, isDelta: false,)
+/* 70.43 */    expectEqual("ps[1].rect.top", "500", ps[1].rect.top, 500, isDelta: false,)
+/* 70.44 */}
+/* 70.45 */
+/* 70.46 */
+/* 70.47 */interface TestPackageExtension_TestCase_testAbsoluteCells {
+/* 70.48 */    func registerTestCase_testAbsoluteCells(): Unit
+/* 70.49 */}
+/* 70.50 */extend TestPackage <: TestPackageExtension_TestCase_testAbsoluteCells {
+/* 70.51 */    @Attribute[TEST_REGISTER]
+/* 70.52 */    public func registerTestCase_testAbsoluteCells() {
+/* 70.53 */        registerSuite({ => TestCase_testAbsoluteCells().asTestSuite() })
+/* 70.54 */    }
+/* 70.55 */}
+/* 70.56 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in layout_test.cj:82:1 ===== */
+/* 82.1 */@Attribute[TEST_GENERATED] class TestCase_testOverflowStacksInLastCell <: TestClass {
+/* 82.2 */    init() {
+/* 82.3 */    }
+/* 82.4 */    private func classConfiguration(): Configuration {
+/* 82.5 */        let configuration = Configuration()
+/* 82.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 82.7 */        
+/* 82.8 */        return configuration
+/* 82.9 */    }
+/* 82.10 */    public override func asTestSuite(): TestSuite {
+/* 82.11 */        
+/* 82.12 */        let suiteConfiguration = classConfiguration()
+/* 82.13 */        let suiteBuilder = TestSuite.builder("TestCase_testOverflowStacksInLastCell").configure(suiteConfiguration)
+/* 82.14 */        
+/* 82.15 */        { => let caseConfig = Configuration()
+/* 82.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 82.17 */            
+/* 82.18 */            let testOverflowStacksInLastCellTestFunc = { => testOverflowStacksInLastCell();() }
+/* 82.19 */            suiteBuilder.add(
+/* 82.20 */            UnitTestCase.create(
+/* 82.21 */            "testOverflowStacksInLastCell",
+/* 82.22 */            configuration: caseConfig,
+/* 82.23 */            body: testOverflowStacksInLastCellTestFunc
+/* 82.24 */            )
+/* 82.25 */            )
+/* 82.26 */            
+/* 82.27 */        }()
+/* 82.28 */        
+/* 82.29 */        return suiteBuilder.build()
+/* 82.30 */    }
+/* 82.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 82.32 */        throw Exception("Unreachable code")
+/* 82.33 */    }
+/* 82.34 */}
+/* 82.35 */func testOverflowStacksInLastCell() {
+/* 82.36 */    let spec = LayoutSpec()
+/* 82.37 */    spec.kind = LayoutKind.Grid
+/* 82.38 */    spec.columns = 1
+/* 82.39 */    spec.rows = 1
+/* 82.40 */    spec.gap = 0
+/* 82.41 */    spec.overflowOffset = 30
+/* 82.42 */    let area = Rect(left: 0, top: 0, right: 800, bottom: 600)
+/* 82.43 */    let ps = solve([WindowId(value: 1), WindowId(value: 2), WindowId(value: 3)], spec, area)
+/* 82.44 */    expectEqual("ps.size", "3", ps.size, 3, isDelta: false,)
+/* 82.45 */    expectEqual("ps[1].rect.left", "30", ps[1].rect.left, 30, isDelta: false,)
+/* 82.46 */    expectEqual("ps[2].rect.left", "60", ps[2].rect.left, 60, isDelta: false,)
+/* 82.47 */}
+/* 82.48 */
+/* 82.49 */
+/* 82.50 */interface TestPackageExtension_TestCase_testOverflowStacksInLastCell {
+/* 82.51 */    func registerTestCase_testOverflowStacksInLastCell(): Unit
+/* 82.52 */}
+/* 82.53 */extend TestPackage <: TestPackageExtension_TestCase_testOverflowStacksInLastCell {
+/* 82.54 */    @Attribute[TEST_REGISTER]
+/* 82.55 */    public func registerTestCase_testOverflowStacksInLastCell() {
+/* 82.56 */        registerSuite({ => TestCase_testOverflowStacksInLastCell().asTestSuite() })
+/* 82.57 */    }
+/* 82.58 */}
+/* 82.59 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in layout_test.cj:97:1 ===== */
+/* 97.1 */@Attribute[TEST_GENERATED] class TestCase_testEmptyWindows <: TestClass {
+/* 97.2 */    init() {
+/* 97.3 */    }
+/* 97.4 */    private func classConfiguration(): Configuration {
+/* 97.5 */        let configuration = Configuration()
+/* 97.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 97.7 */        
+/* 97.8 */        return configuration
+/* 97.9 */    }
+/* 97.10 */    public override func asTestSuite(): TestSuite {
+/* 97.11 */        
+/* 97.12 */        let suiteConfiguration = classConfiguration()
+/* 97.13 */        let suiteBuilder = TestSuite.builder("TestCase_testEmptyWindows").configure(suiteConfiguration)
+/* 97.14 */        
+/* 97.15 */        { => let caseConfig = Configuration()
+/* 97.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 97.17 */            
+/* 97.18 */            let testEmptyWindowsTestFunc = { => testEmptyWindows();() }
+/* 97.19 */            suiteBuilder.add(
+/* 97.20 */            UnitTestCase.create(
+/* 97.21 */            "testEmptyWindows",
+/* 97.22 */            configuration: caseConfig,
+/* 97.23 */            body: testEmptyWindowsTestFunc
+/* 97.24 */            )
+/* 97.25 */            )
+/* 97.26 */            
+/* 97.27 */        }()
+/* 97.28 */        
+/* 97.29 */        return suiteBuilder.build()
+/* 97.30 */    }
+/* 97.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 97.32 */        throw Exception("Unreachable code")
+/* 97.33 */    }
+/* 97.34 */}
+/* 97.35 */func testEmptyWindows() {
+/* 97.36 */    let spec = LayoutSpec()
+/* 97.37 */    let ps = solve(Array < WindowId >(), spec, Rect(left: 0, top: 0, right: 100, bottom: 100))
+/* 97.38 */    expectEqual("ps.size", "0", ps.size, 0, isDelta: false,)
+/* 97.39 */}
+/* 97.40 */
+/* 97.41 */
+/* 97.42 */interface TestPackageExtension_TestCase_testEmptyWindows {
+/* 97.43 */    func registerTestCase_testEmptyWindows(): Unit
+/* 97.44 */}
+/* 97.45 */extend TestPackage <: TestPackageExtension_TestCase_testEmptyWindows {
+/* 97.46 */    @Attribute[TEST_REGISTER]
+/* 97.47 */    public func registerTestCase_testEmptyWindows() {
+/* 97.48 */        registerSuite({ => TestCase_testEmptyWindows().asTestSuite() })
+/* 97.49 */    }
+/* 97.50 */}
+/* 97.51 */
+/* ===== End of the Emit ===== */

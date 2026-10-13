@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "log": { "level": "debug", "file": "C:\\Users\\tanyz\\Desktop\\sf2\\winini\\.smoketest.log", "rotateKb": 2048 },
+  "behavior": { "watchConfig": false, "strict": false, "commandTimeoutMs": 150 },
+  "hotkeys": {
+    "win+alt+f1": "config reload",
+    "win+alt+z": "quit"
+  },
+  "apps": {},
+  "launches": {},
+  "layouts": {},
+  "groups": {}
+}

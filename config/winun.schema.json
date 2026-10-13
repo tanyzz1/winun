@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://winun.local/schema/v1.json",
+  "title": "winun 配置",
+  "type": "object",
+  "required": ["version"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "$comment": { "type": "string" },
+    "version": { "const": 1 },
+    "log": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "level": { "enum": ["debug", "info", "warn", "error"] },
+        "file": { "type": "string" },
+        "rotateKb": { "type": "integer", "minimum": 64 }
+      }
+    },
+    "behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "watchConfig": { "type": "boolean" },
+        "strict": { "type": "boolean" },
+        "startupGroup": { "type": "string" },
+        "defaultLayout": { "type": "string" },
+        "commandTimeoutMs": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "hotkeys": {
+      "type": "object",
+      "propertyNames": { "pattern": "^(win|ctrl|alt|shift)(\\+(win|ctrl|alt|shift))*\\+[a-z0-9]+$" },
+      "additionalProperties": { "type": "string" }
+    },
+    "apps": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["exe"],
+        "additionalProperties": false,
+        "properties": {
+          "exe": { "type": "string" },
+          "args": { "type": "array", "items": { "type": "string" } },
+          "cwd": { "type": "string" },
+          "env": { "type": "object", "additionalProperties": { "type": "string" } },
+          "match": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "exe": { "type": "string" },
+              "path": { "type": "string" },
+              "class": { "type": "string" },
+              "title": { "type": "string" }
+            }
+          },
+          "startupWaitMs": { "type": "integer", "minimum": 0 },
+          "reuse": { "enum": ["existing", "new"] },
+          "maximizeOnStart": { "type": "boolean" }
+        }
+      }
+    },
+    "launches": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["apps"],
+        "additionalProperties": false,
+        "properties": {
+          "apps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "staggerMs": { "type": "integer", "minimum": 0 },
+          "group": { "type": "string" },
+          "layout": { "type": "string" }
+        }
+      }
+    },
+    "layouts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type"],
+        "additionalProperties": false,
+        "properties": {
+          "type": { "enum": ["grid", "ratio", "absolute", "anchor"] },
+          "columns": { "type": "integer", "minimum": 1 },
+          "rows": { "type": "integer", "minimum": 1 },
+          "gap": { "type": "integer", "minimum": 0 },
+          "margins": {
+            "oneOf": [
+              { "type": "integer" },
+              { "type": "array", "items": { "type": "integer" }, "minItems": 4, "maxItems": 4 }
+            ]
+          },
+          "ratios": { "type": "array", "items": { "type": "number" }, "minItems": 1 },
+          "cells": {
+            "type": "array",
+            "items": { "type": "array", "items": { "type": "integer" }, "minItems": 4, "maxItems": 4 }
+          },
+          "monitor": { "oneOf": [{ "enum": ["primary", "secondary"] }, { "type": "integer" }] },
+          "order": { "enum": ["listed", "zorder", "title"] },
+          "anchor": { "enum": ["left", "right", "top", "bottom", "top-left", "top-right", "bottom-left", "bottom-right", "center"] },
+          "size": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 }
+        }
+      }
+    },
+    "groups": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "layout": { "type": "string" },
+          "apps": { "type": "array", "items": { "type": "string" } },
+          "monitor": { "oneOf": [{ "enum": ["primary", "secondary"] }, { "type": "integer" }] },
+          "activate": { "enum": ["focus-last", "focus-first", "cycle"] },
+          "onSwitchAway": { "enum": ["minimize", "hide", "keep"] },
+          "onActivate": { "enum": ["restore", "keep-size"] }
+        }
+      }
+    }
+  }
+}

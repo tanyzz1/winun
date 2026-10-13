@@ -1,0 +1,448 @@
+package winun.config
+
+import std.unittest.*
+import std.unittest.testmacro.*
+
+let MINIMAL = """
+{
+  "version": 1,
+  "hotkeys": {"win+alt+1": "launch dev-env"},
+  "apps": {"vscode": {"exe": "code.exe", "match": {"exe": "Code.exe"}}},
+  "launches": {"dev-env": {"apps": ["vscode"], "group": "coding"}},
+  "layouts": {"two-columns": {"type": "grid", "columns": 2, "rows": 1}},
+  "groups": {"coding": {"layout": "two-columns", "apps": ["vscode"], "onSwitchAway": "minimize"}}
+}
+"""
+
+/* ===== Emitted by MacroCall @Test in config_test.cj:17:1 ===== */
+/* 17.1 */@Attribute[TEST_GENERATED] class TestCase_testMinimalConfigIsValid <: TestClass {
+/* 17.2 */    init() {
+/* 17.3 */    }
+/* 17.4 */    private func classConfiguration(): Configuration {
+/* 17.5 */        let configuration = Configuration()
+/* 17.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 17.7 */        
+/* 17.8 */        return configuration
+/* 17.9 */    }
+/* 17.10 */    public override func asTestSuite(): TestSuite {
+/* 17.11 */        
+/* 17.12 */        let suiteConfiguration = classConfiguration()
+/* 17.13 */        let suiteBuilder = TestSuite.builder("TestCase_testMinimalConfigIsValid").configure(suiteConfiguration)
+/* 17.14 */        
+/* 17.15 */        { => let caseConfig = Configuration()
+/* 17.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 17.17 */            
+/* 17.18 */            let testMinimalConfigIsValidTestFunc = { => testMinimalConfigIsValid();() }
+/* 17.19 */            suiteBuilder.add(
+/* 17.20 */            UnitTestCase.create(
+/* 17.21 */            "testMinimalConfigIsValid",
+/* 17.22 */            configuration: caseConfig,
+/* 17.23 */            body: testMinimalConfigIsValidTestFunc
+/* 17.24 */            )
+/* 17.25 */            )
+/* 17.26 */            
+/* 17.27 */        }()
+/* 17.28 */        
+/* 17.29 */        return suiteBuilder.build()
+/* 17.30 */    }
+/* 17.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 17.32 */        throw Exception("Unreachable code")
+/* 17.33 */    }
+/* 17.34 */}
+/* 17.35 */func testMinimalConfigIsValid() {
+/* 17.36 */    let r = parseConfig(MINIMAL, "<test>")
+/* 17.37 */    assertEqual("r.ok()", "true", r.ok(), true, isDelta: false,)
+/* 17.38 */    expectEqual("r.snapshot.apps.size", "1", r.snapshot.apps.size, 1, isDelta: false,)
+/* 17.39 */    expectEqual("r.snapshot.groups.size", "1", r.snapshot.groups.size, 1, isDelta: false,)
+/* 17.40 */    expectEqual("r.snapshot.hotkeys.size", "1", r.snapshot.hotkeys.size, 1, isDelta: false,)
+/* 17.41 */    expectEqual("r.snapshot.launchOrder[0]", "\"dev-env\"", r.snapshot.launchOrder[0], "dev-env", isDelta: false,)
+/* 17.42 */}
+/* 17.43 */
+/* 17.44 */
+/* 17.45 */interface TestPackageExtension_TestCase_testMinimalConfigIsValid {
+/* 17.46 */    func registerTestCase_testMinimalConfigIsValid(): Unit
+/* 17.47 */}
+/* 17.48 */extend TestPackage <: TestPackageExtension_TestCase_testMinimalConfigIsValid {
+/* 17.49 */    @Attribute[TEST_REGISTER]
+/* 17.50 */    public func registerTestCase_testMinimalConfigIsValid() {
+/* 17.51 */        registerSuite({ => TestCase_testMinimalConfigIsValid().asTestSuite() })
+/* 17.52 */    }
+/* 17.53 */}
+/* 17.54 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in config_test.cj:27:1 ===== */
+/* 27.1 */@Attribute[TEST_GENERATED] class TestCase_testDanglingReferencesAreErrors <: TestClass {
+/* 27.2 */    init() {
+/* 27.3 */    }
+/* 27.4 */    private func classConfiguration(): Configuration {
+/* 27.5 */        let configuration = Configuration()
+/* 27.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 27.7 */        
+/* 27.8 */        return configuration
+/* 27.9 */    }
+/* 27.10 */    public override func asTestSuite(): TestSuite {
+/* 27.11 */        
+/* 27.12 */        let suiteConfiguration = classConfiguration()
+/* 27.13 */        let suiteBuilder = TestSuite.builder("TestCase_testDanglingReferencesAreErrors").configure(suiteConfiguration)
+/* 27.14 */        
+/* 27.15 */        { => let caseConfig = Configuration()
+/* 27.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 27.17 */            
+/* 27.18 */            let testDanglingReferencesAreErrorsTestFunc = { => testDanglingReferencesAreErrors();() }
+/* 27.19 */            suiteBuilder.add(
+/* 27.20 */            UnitTestCase.create(
+/* 27.21 */            "testDanglingReferencesAreErrors",
+/* 27.22 */            configuration: caseConfig,
+/* 27.23 */            body: testDanglingReferencesAreErrorsTestFunc
+/* 27.24 */            )
+/* 27.25 */            )
+/* 27.26 */            
+/* 27.27 */        }()
+/* 27.28 */        
+/* 27.29 */        return suiteBuilder.build()
+/* 27.30 */    }
+/* 27.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 27.32 */        throw Exception("Unreachable code")
+/* 27.33 */    }
+/* 27.34 */}
+/* 27.35 */func testDanglingReferencesAreErrors() {
+/* 27.36 */    let text = """
+{
+  "version": 1,
+  "apps": {"vscode": {"exe": "code.exe"}},
+  "launches": {"dev": {"apps": ["missing-app"], "group": "missing-group"}},
+  "groups": {"coding": {"layout": "missing-layout", "apps": ["vscode"]}}
+}
+"""
+/* 27.37 */    let r = parseConfig(text, "<test>")
+/* 27.38 */    assertEqual("! r.ok()", "true", ! r.ok(), true, isDelta: false,)
+/* 27.39 */    var hasAppError = false
+/* 27.40 */    var hasGroupError = false
+/* 27.41 */    var hasLayoutError = false
+/* 27.42 */    for(e in r.errors) {
+/* 27.43 */        if(e.contains("missing-app")) { hasAppError = true }
+/* 27.44 */        if(e.contains("missing-group")) { hasGroupError = true }
+/* 27.45 */        if(e.contains("missing-layout")) { hasLayoutError = true }
+/* 27.46 */    }
+/* 27.47 */    assertEqual("hasAppError && hasGroupError && hasLayoutError", "true", hasAppError && hasGroupError && hasLayoutError, true, isDelta: false,)
+/* 27.48 */}
+/* 27.49 */
+/* 27.50 */
+/* 27.51 */interface TestPackageExtension_TestCase_testDanglingReferencesAreErrors {
+/* 27.52 */    func registerTestCase_testDanglingReferencesAreErrors(): Unit
+/* 27.53 */}
+/* 27.54 */extend TestPackage <: TestPackageExtension_TestCase_testDanglingReferencesAreErrors {
+/* 27.55 */    @Attribute[TEST_REGISTER]
+/* 27.56 */    public func registerTestCase_testDanglingReferencesAreErrors() {
+/* 27.57 */        registerSuite({ => TestCase_testDanglingReferencesAreErrors().asTestSuite() })
+/* 27.58 */    }
+/* 27.59 */}
+/* 27.60 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in config_test.cj:50:1 ===== */
+/* 50.1 */@Attribute[TEST_GENERATED] class TestCase_testBadHotkeyAndAction <: TestClass {
+/* 50.2 */    init() {
+/* 50.3 */    }
+/* 50.4 */    private func classConfiguration(): Configuration {
+/* 50.5 */        let configuration = Configuration()
+/* 50.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 50.7 */        
+/* 50.8 */        return configuration
+/* 50.9 */    }
+/* 50.10 */    public override func asTestSuite(): TestSuite {
+/* 50.11 */        
+/* 50.12 */        let suiteConfiguration = classConfiguration()
+/* 50.13 */        let suiteBuilder = TestSuite.builder("TestCase_testBadHotkeyAndAction").configure(suiteConfiguration)
+/* 50.14 */        
+/* 50.15 */        { => let caseConfig = Configuration()
+/* 50.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 50.17 */            
+/* 50.18 */            let testBadHotkeyAndActionTestFunc = { => testBadHotkeyAndAction();() }
+/* 50.19 */            suiteBuilder.add(
+/* 50.20 */            UnitTestCase.create(
+/* 50.21 */            "testBadHotkeyAndAction",
+/* 50.22 */            configuration: caseConfig,
+/* 50.23 */            body: testBadHotkeyAndActionTestFunc
+/* 50.24 */            )
+/* 50.25 */            )
+/* 50.26 */            
+/* 50.27 */        }()
+/* 50.28 */        
+/* 50.29 */        return suiteBuilder.build()
+/* 50.30 */    }
+/* 50.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 50.32 */        throw Exception("Unreachable code")
+/* 50.33 */    }
+/* 50.34 */}
+/* 50.35 */func testBadHotkeyAndAction() {
+/* 50.36 */    let text = """
+{
+  "version": 1,
+  "hotkeys": {"ctrl+a": "nonsense action", "win+alt+": "quit"}
+}
+"""
+/* 50.37 */    let r = parseConfig(text, "<test>")
+/* 50.38 */    assertEqual("! r.ok()", "true", ! r.ok(), true, isDelta: false,)
+/* 50.39 */    assertEqual("r.errors.size >= 2", "true", r.errors.size >= 2, true, isDelta: false,)
+/* 50.40 */}
+/* 50.41 */
+/* 50.42 */
+/* 50.43 */interface TestPackageExtension_TestCase_testBadHotkeyAndAction {
+/* 50.44 */    func registerTestCase_testBadHotkeyAndAction(): Unit
+/* 50.45 */}
+/* 50.46 */extend TestPackage <: TestPackageExtension_TestCase_testBadHotkeyAndAction {
+/* 50.47 */    @Attribute[TEST_REGISTER]
+/* 50.48 */    public func registerTestCase_testBadHotkeyAndAction() {
+/* 50.49 */        registerSuite({ => TestCase_testBadHotkeyAndAction().asTestSuite() })
+/* 50.50 */    }
+/* 50.51 */}
+/* 50.52 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in config_test.cj:63:1 ===== */
+/* 63.1 */@Attribute[TEST_GENERATED] class TestCase_testSyntaxErrorCarriesPosition <: TestClass {
+/* 63.2 */    init() {
+/* 63.3 */    }
+/* 63.4 */    private func classConfiguration(): Configuration {
+/* 63.5 */        let configuration = Configuration()
+/* 63.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 63.7 */        
+/* 63.8 */        return configuration
+/* 63.9 */    }
+/* 63.10 */    public override func asTestSuite(): TestSuite {
+/* 63.11 */        
+/* 63.12 */        let suiteConfiguration = classConfiguration()
+/* 63.13 */        let suiteBuilder = TestSuite.builder("TestCase_testSyntaxErrorCarriesPosition").configure(suiteConfiguration)
+/* 63.14 */        
+/* 63.15 */        { => let caseConfig = Configuration()
+/* 63.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 63.17 */            
+/* 63.18 */            let testSyntaxErrorCarriesPositionTestFunc = { => testSyntaxErrorCarriesPosition();() }
+/* 63.19 */            suiteBuilder.add(
+/* 63.20 */            UnitTestCase.create(
+/* 63.21 */            "testSyntaxErrorCarriesPosition",
+/* 63.22 */            configuration: caseConfig,
+/* 63.23 */            body: testSyntaxErrorCarriesPositionTestFunc
+/* 63.24 */            )
+/* 63.25 */            )
+/* 63.26 */            
+/* 63.27 */        }()
+/* 63.28 */        
+/* 63.29 */        return suiteBuilder.build()
+/* 63.30 */    }
+/* 63.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 63.32 */        throw Exception("Unreachable code")
+/* 63.33 */    }
+/* 63.34 */}
+/* 63.35 */func testSyntaxErrorCarriesPosition() {
+/* 63.36 */    let r = parseConfig("""
+{
+  "version": 1,
+  "apps": {,
+}
+""", "winun.json")
+/* 63.37 */    assertEqual("! r.ok()", "true", ! r.ok(), true, isDelta: false,)
+/* 63.38 */    assertEqual("r.errors[0].contains(\"winun.json:3\") || r.errors[0].contains(\"E1001\")", "true", r.errors[0].contains("winun.json:3") || r.errors[0].contains("E1001"), true, isDelta: false,)
+/* 63.39 */}
+/* 63.40 */
+/* 63.41 */
+/* 63.42 */interface TestPackageExtension_TestCase_testSyntaxErrorCarriesPosition {
+/* 63.43 */    func registerTestCase_testSyntaxErrorCarriesPosition(): Unit
+/* 63.44 */}
+/* 63.45 */extend TestPackage <: TestPackageExtension_TestCase_testSyntaxErrorCarriesPosition {
+/* 63.46 */    @Attribute[TEST_REGISTER]
+/* 63.47 */    public func registerTestCase_testSyntaxErrorCarriesPosition() {
+/* 63.48 */        registerSuite({ => TestCase_testSyntaxErrorCarriesPosition().asTestSuite() })
+/* 63.49 */    }
+/* 63.50 */}
+/* 63.51 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in config_test.cj:75:1 ===== */
+/* 75.1 */@Attribute[TEST_GENERATED] class TestCase_testTypeMismatchIsReported <: TestClass {
+/* 75.2 */    init() {
+/* 75.3 */    }
+/* 75.4 */    private func classConfiguration(): Configuration {
+/* 75.5 */        let configuration = Configuration()
+/* 75.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 75.7 */        
+/* 75.8 */        return configuration
+/* 75.9 */    }
+/* 75.10 */    public override func asTestSuite(): TestSuite {
+/* 75.11 */        
+/* 75.12 */        let suiteConfiguration = classConfiguration()
+/* 75.13 */        let suiteBuilder = TestSuite.builder("TestCase_testTypeMismatchIsReported").configure(suiteConfiguration)
+/* 75.14 */        
+/* 75.15 */        { => let caseConfig = Configuration()
+/* 75.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 75.17 */            
+/* 75.18 */            let testTypeMismatchIsReportedTestFunc = { => testTypeMismatchIsReported();() }
+/* 75.19 */            suiteBuilder.add(
+/* 75.20 */            UnitTestCase.create(
+/* 75.21 */            "testTypeMismatchIsReported",
+/* 75.22 */            configuration: caseConfig,
+/* 75.23 */            body: testTypeMismatchIsReportedTestFunc
+/* 75.24 */            )
+/* 75.25 */            )
+/* 75.26 */            
+/* 75.27 */        }()
+/* 75.28 */        
+/* 75.29 */        return suiteBuilder.build()
+/* 75.30 */    }
+/* 75.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 75.32 */        throw Exception("Unreachable code")
+/* 75.33 */    }
+/* 75.34 */}
+/* 75.35 */func testTypeMismatchIsReported() {
+/* 75.36 */    let text = """
+{
+  "version": 1,
+  "behavior": {"watchConfig": "yes"},
+  "log": {"level": "verbose"}
+}
+"""
+/* 75.37 */    let r = parseConfig(text, "<test>")
+/* 75.38 */    assertEqual("! r.ok()", "true", ! r.ok(), true, isDelta: false,)
+/* 75.39 */    var hasWatch = false
+/* 75.40 */    var hasLevel = false
+/* 75.41 */    for(e in r.errors) {
+/* 75.42 */        if(e.contains("watchConfig")) { hasWatch = true }
+/* 75.43 */        if(e.contains("log.level")) { hasLevel = true }
+/* 75.44 */    }
+/* 75.45 */    assertEqual("hasWatch && hasLevel", "true", hasWatch && hasLevel, true, isDelta: false,)
+/* 75.46 */}
+/* 75.47 */
+/* 75.48 */
+/* 75.49 */interface TestPackageExtension_TestCase_testTypeMismatchIsReported {
+/* 75.50 */    func registerTestCase_testTypeMismatchIsReported(): Unit
+/* 75.51 */}
+/* 75.52 */extend TestPackage <: TestPackageExtension_TestCase_testTypeMismatchIsReported {
+/* 75.53 */    @Attribute[TEST_REGISTER]
+/* 75.54 */    public func registerTestCase_testTypeMismatchIsReported() {
+/* 75.55 */        registerSuite({ => TestCase_testTypeMismatchIsReported().asTestSuite() })
+/* 75.56 */    }
+/* 75.57 */}
+/* 75.58 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in config_test.cj:95:1 ===== */
+/* 95.1 */@Attribute[TEST_GENERATED] class TestCase_testUnknownKeyIsWarningByDefault <: TestClass {
+/* 95.2 */    init() {
+/* 95.3 */    }
+/* 95.4 */    private func classConfiguration(): Configuration {
+/* 95.5 */        let configuration = Configuration()
+/* 95.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 95.7 */        
+/* 95.8 */        return configuration
+/* 95.9 */    }
+/* 95.10 */    public override func asTestSuite(): TestSuite {
+/* 95.11 */        
+/* 95.12 */        let suiteConfiguration = classConfiguration()
+/* 95.13 */        let suiteBuilder = TestSuite.builder("TestCase_testUnknownKeyIsWarningByDefault").configure(suiteConfiguration)
+/* 95.14 */        
+/* 95.15 */        { => let caseConfig = Configuration()
+/* 95.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 95.17 */            
+/* 95.18 */            let testUnknownKeyIsWarningByDefaultTestFunc = { => testUnknownKeyIsWarningByDefault();() }
+/* 95.19 */            suiteBuilder.add(
+/* 95.20 */            UnitTestCase.create(
+/* 95.21 */            "testUnknownKeyIsWarningByDefault",
+/* 95.22 */            configuration: caseConfig,
+/* 95.23 */            body: testUnknownKeyIsWarningByDefaultTestFunc
+/* 95.24 */            )
+/* 95.25 */            )
+/* 95.26 */            
+/* 95.27 */        }()
+/* 95.28 */        
+/* 95.29 */        return suiteBuilder.build()
+/* 95.30 */    }
+/* 95.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 95.32 */        throw Exception("Unreachable code")
+/* 95.33 */    }
+/* 95.34 */}
+/* 95.35 */func testUnknownKeyIsWarningByDefault() {
+/* 95.36 */    let text = """
+{
+  "version": 1,
+  "typo": 1
+}
+"""
+/* 95.37 */    let r = parseConfig(text, "<test>")
+/* 95.38 */    assertEqual("r.ok()", "true", r.ok(), true, isDelta: false,)
+/* 95.39 */    assertEqual("r.warnings.size >= 1", "true", r.warnings.size >= 1, true, isDelta: false,)
+/* 95.40 */}
+/* 95.41 */
+/* 95.42 */
+/* 95.43 */interface TestPackageExtension_TestCase_testUnknownKeyIsWarningByDefault {
+/* 95.44 */    func registerTestCase_testUnknownKeyIsWarningByDefault(): Unit
+/* 95.45 */}
+/* 95.46 */extend TestPackage <: TestPackageExtension_TestCase_testUnknownKeyIsWarningByDefault {
+/* 95.47 */    @Attribute[TEST_REGISTER]
+/* 95.48 */    public func registerTestCase_testUnknownKeyIsWarningByDefault() {
+/* 95.49 */        registerSuite({ => TestCase_testUnknownKeyIsWarningByDefault().asTestSuite() })
+/* 95.50 */    }
+/* 95.51 */}
+/* 95.52 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in config_test.cj:108:1 ===== */
+/* 108.1 */@Attribute[TEST_GENERATED] class TestCase_testUnknownKeyIsErrorInStrictMode <: TestClass {
+/* 108.2 */    init() {
+/* 108.3 */    }
+/* 108.4 */    private func classConfiguration(): Configuration {
+/* 108.5 */        let configuration = Configuration()
+/* 108.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 108.7 */        
+/* 108.8 */        return configuration
+/* 108.9 */    }
+/* 108.10 */    public override func asTestSuite(): TestSuite {
+/* 108.11 */        
+/* 108.12 */        let suiteConfiguration = classConfiguration()
+/* 108.13 */        let suiteBuilder = TestSuite.builder("TestCase_testUnknownKeyIsErrorInStrictMode").configure(suiteConfiguration)
+/* 108.14 */        
+/* 108.15 */        { => let caseConfig = Configuration()
+/* 108.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 108.17 */            
+/* 108.18 */            let testUnknownKeyIsErrorInStrictModeTestFunc = { => testUnknownKeyIsErrorInStrictMode();() }
+/* 108.19 */            suiteBuilder.add(
+/* 108.20 */            UnitTestCase.create(
+/* 108.21 */            "testUnknownKeyIsErrorInStrictMode",
+/* 108.22 */            configuration: caseConfig,
+/* 108.23 */            body: testUnknownKeyIsErrorInStrictModeTestFunc
+/* 108.24 */            )
+/* 108.25 */            )
+/* 108.26 */            
+/* 108.27 */        }()
+/* 108.28 */        
+/* 108.29 */        return suiteBuilder.build()
+/* 108.30 */    }
+/* 108.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 108.32 */        throw Exception("Unreachable code")
+/* 108.33 */    }
+/* 108.34 */}
+/* 108.35 */func testUnknownKeyIsErrorInStrictMode() {
+/* 108.36 */    let text = """
+{
+  "version": 1,
+  "behavior": {"strict": true},
+  "typo": 1
+}
+"""
+/* 108.37 */    let r = parseConfig(text, "<test>")
+/* 108.38 */    assertEqual("! r.ok()", "true", ! r.ok(), true, isDelta: false,)
+/* 108.39 */}
+/* 108.40 */
+/* 108.41 */
+/* 108.42 */interface TestPackageExtension_TestCase_testUnknownKeyIsErrorInStrictMode {
+/* 108.43 */    func registerTestCase_testUnknownKeyIsErrorInStrictMode(): Unit
+/* 108.44 */}
+/* 108.45 */extend TestPackage <: TestPackageExtension_TestCase_testUnknownKeyIsErrorInStrictMode {
+/* 108.46 */    @Attribute[TEST_REGISTER]
+/* 108.47 */    public func registerTestCase_testUnknownKeyIsErrorInStrictMode() {
+/* 108.48 */        registerSuite({ => TestCase_testUnknownKeyIsErrorInStrictMode().asTestSuite() })
+/* 108.49 */    }
+/* 108.50 */}
+/* 108.51 */
+/* ===== End of the Emit ===== */

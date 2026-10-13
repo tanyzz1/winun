@@ -1,0 +1,421 @@
+package winun.core
+
+import std.unittest.*
+import std.unittest.testmacro.*
+import winun.config.*
+import winun.domain.*
+import winun.infra.*
+import winun.platform.*
+
+let CFG_TEXT = """
+{
+  "version": 1,
+  "apps": {
+    "editor":  {"exe": "editor.exe",  "match": {"exe": "editor.exe"}},
+    "term":    {"exe": "term.exe",    "match": {"exe": "term.exe"}},
+    "browser": {"exe": "browser.exe", "match": {"exe": "browser.exe"}}
+  },
+  "launches": {
+    "dev-env": {"apps": ["editor", "term"], "group": "coding", "staggerMs": 0}
+  },
+  "layouts": {
+    "two-columns": {"type": "grid", "columns": 2, "rows": 1, "gap": 0, "margins": [0, 0, 0, 0]},
+    "half": {"type": "anchor", "anchor": "left", "size": ["50%", "100%"]}
+  },
+  "groups": {
+    "coding":  {"layout": "two-columns", "apps": ["editor", "term"], "onSwitchAway": "minimize", "activate": "focus-first"},
+    "browser": {"layout": "half", "apps": ["browser"], "onSwitchAway": "hide", "activate": "focus-first"}
+  }
+}
+"""
+
+class Fixture {
+    var dispatcher: Dispatcher
+    var backend: RecordingWindowBackend
+    var launcher: RecordingLauncher
+    var hotkeys: RecordingHotkeys
+    var clock: FakeClock
+
+    init() {
+        let r = parseConfig(CFG_TEXT, "<test>")
+        this.backend = RecordingWindowBackend()
+        this.backend.area = Rect(left: 0, top: 0, right: 1000, bottom: 600)
+        this.launcher = RecordingLauncher()
+        this.launcher.backend = Some(this.backend)
+        this.launcher.register("editor", "editor.exe")
+        this.launcher.register("term", "term.exe")
+        this.launcher.register("browser", "browser.exe")
+        this.hotkeys = RecordingHotkeys()
+        this.clock = FakeClock()
+        let log = Logger(LogLevel.Error, "", false)
+        this.dispatcher = Dispatcher(this.backend, this.launcher, this.hotkeys, this.clock, r.snapshot, log)
+    }
+}
+
+/* ===== Emitted by MacroCall @Test in dispatcher_test.cj:55:1 ===== */
+/* 55.1 */@Attribute[TEST_GENERATED] class TestCase_testLaunchSetLaunchesAdoptsAndLaysOut <: TestClass {
+/* 55.2 */    init() {
+/* 55.3 */    }
+/* 55.4 */    private func classConfiguration(): Configuration {
+/* 55.5 */        let configuration = Configuration()
+/* 55.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 55.7 */        
+/* 55.8 */        return configuration
+/* 55.9 */    }
+/* 55.10 */    public override func asTestSuite(): TestSuite {
+/* 55.11 */        
+/* 55.12 */        let suiteConfiguration = classConfiguration()
+/* 55.13 */        let suiteBuilder = TestSuite.builder("TestCase_testLaunchSetLaunchesAdoptsAndLaysOut").configure(suiteConfiguration)
+/* 55.14 */        
+/* 55.15 */        { => let caseConfig = Configuration()
+/* 55.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 55.17 */            
+/* 55.18 */            let testLaunchSetLaunchesAdoptsAndLaysOutTestFunc = { => testLaunchSetLaunchesAdoptsAndLaysOut();() }
+/* 55.19 */            suiteBuilder.add(
+/* 55.20 */            UnitTestCase.create(
+/* 55.21 */            "testLaunchSetLaunchesAdoptsAndLaysOut",
+/* 55.22 */            configuration: caseConfig,
+/* 55.23 */            body: testLaunchSetLaunchesAdoptsAndLaysOutTestFunc
+/* 55.24 */            )
+/* 55.25 */            )
+/* 55.26 */            
+/* 55.27 */        }()
+/* 55.28 */        
+/* 55.29 */        return suiteBuilder.build()
+/* 55.30 */    }
+/* 55.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 55.32 */        throw Exception("Unreachable code")
+/* 55.33 */    }
+/* 55.34 */}
+/* 55.35 */func testLaunchSetLaunchesAdoptsAndLaysOut() {
+/* 55.36 */    let f = Fixture()
+/* 55.37 */    f.dispatcher.dispatch(Action.Launch("dev-env"))
+/* 55.38 */    
+/* 55.39 */    expectEqual("f.launcher.launched.size", "2", f.launcher.launched.size, 2, isDelta: false,)
+/* 55.40 */    expectEqual("f.launcher.launched[0]", "\"editor\"", f.launcher.launched[0], "editor", isDelta: false,)
+/* 55.41 */    expectEqual("f.launcher.launched[1]", "\"term\"", f.launcher.launched[1], "term", isDelta: false,)
+/* 55.42 */    expectEqual("f.dispatcher.session.activeGroup", "\"coding\"", f.dispatcher.session.activeGroup, "coding", isDelta: false,)
+/* 55.43 */    expectEqual("f.backend.placed.size", "2", f.backend.placed.size, 2, isDelta: false,)
+/* 55.44 */    
+/* 55.45 */    expectEqual("f.backend.placed[0].rect.left", "0", f.backend.placed[0].rect.left, 0, isDelta: false,)
+/* 55.46 */    expectEqual("f.backend.placed[0].rect.right", "500", f.backend.placed[0].rect.right, 500, isDelta: false,)
+/* 55.47 */    expectEqual("f.backend.placed[1].rect.left", "500", f.backend.placed[1].rect.left, 500, isDelta: false,)
+/* 55.48 */    expectEqual("f.backend.placed[1].rect.right", "1000", f.backend.placed[1].rect.right, 1000, isDelta: false,)
+/* 55.49 */    expectEqual("f.dispatcher.registry.membersOf(\"coding\").size", "2", f.dispatcher.registry.membersOf("coding").size, 2, isDelta: false,)
+/* 55.50 */}
+/* 55.51 */
+/* 55.52 */
+/* 55.53 */interface TestPackageExtension_TestCase_testLaunchSetLaunchesAdoptsAndLaysOut {
+/* 55.54 */    func registerTestCase_testLaunchSetLaunchesAdoptsAndLaysOut(): Unit
+/* 55.55 */}
+/* 55.56 */extend TestPackage <: TestPackageExtension_TestCase_testLaunchSetLaunchesAdoptsAndLaysOut {
+/* 55.57 */    @Attribute[TEST_REGISTER]
+/* 55.58 */    public func registerTestCase_testLaunchSetLaunchesAdoptsAndLaysOut() {
+/* 55.59 */        registerSuite({ => TestCase_testLaunchSetLaunchesAdoptsAndLaysOut().asTestSuite() })
+/* 55.60 */    }
+/* 55.61 */}
+/* 55.62 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in dispatcher_test.cj:73:1 ===== */
+/* 73.1 */@Attribute[TEST_GENERATED] class TestCase_testGroupSwitchAppliesSwitchAwayPolicy <: TestClass {
+/* 73.2 */    init() {
+/* 73.3 */    }
+/* 73.4 */    private func classConfiguration(): Configuration {
+/* 73.5 */        let configuration = Configuration()
+/* 73.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 73.7 */        
+/* 73.8 */        return configuration
+/* 73.9 */    }
+/* 73.10 */    public override func asTestSuite(): TestSuite {
+/* 73.11 */        
+/* 73.12 */        let suiteConfiguration = classConfiguration()
+/* 73.13 */        let suiteBuilder = TestSuite.builder("TestCase_testGroupSwitchAppliesSwitchAwayPolicy").configure(suiteConfiguration)
+/* 73.14 */        
+/* 73.15 */        { => let caseConfig = Configuration()
+/* 73.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 73.17 */            
+/* 73.18 */            let testGroupSwitchAppliesSwitchAwayPolicyTestFunc = { => testGroupSwitchAppliesSwitchAwayPolicy();() }
+/* 73.19 */            suiteBuilder.add(
+/* 73.20 */            UnitTestCase.create(
+/* 73.21 */            "testGroupSwitchAppliesSwitchAwayPolicy",
+/* 73.22 */            configuration: caseConfig,
+/* 73.23 */            body: testGroupSwitchAppliesSwitchAwayPolicyTestFunc
+/* 73.24 */            )
+/* 73.25 */            )
+/* 73.26 */            
+/* 73.27 */        }()
+/* 73.28 */        
+/* 73.29 */        return suiteBuilder.build()
+/* 73.30 */    }
+/* 73.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 73.32 */        throw Exception("Unreachable code")
+/* 73.33 */    }
+/* 73.34 */}
+/* 73.35 */func testGroupSwitchAppliesSwitchAwayPolicy() {
+/* 73.36 */    let f = Fixture()
+/* 73.37 */    f.dispatcher.dispatch(Action.Launch("dev-env"))
+/* 73.38 */    f.backend.clearCalls()
+/* 73.39 */    
+/* 73.40 */    
+/* 73.41 */    let browserWindow = f.backend.addWindow("browser.exe", "browser")
+/* 73.42 */    f.dispatcher.registry.refresh(f.backend, f.dispatcher.cfg)
+/* 73.43 */    f.dispatcher.registry.adopt("browser", browserWindow)
+/* 73.44 */    
+/* 73.45 */    f.dispatcher.dispatch(Action.GroupActivate("browser"))
+/* 73.46 */    
+/* 73.47 */    
+/* 73.48 */    expectEqual("f.backend.minimized.size", "2", f.backend.minimized.size, 2, isDelta: false,)
+/* 73.49 */    
+/* 73.50 */    expectEqual("f.backend.placed.size", "1", f.backend.placed.size, 1, isDelta: false,)
+/* 73.51 */    expectEqual("f.backend.placed[0].rect.left", "0", f.backend.placed[0].rect.left, 0, isDelta: false,)
+/* 73.52 */    expectEqual("f.backend.placed[0].rect.right", "500", f.backend.placed[0].rect.right, 500, isDelta: false,)
+/* 73.53 */    expectEqual("f.dispatcher.session.activeGroup", "\"browser\"", f.dispatcher.session.activeGroup, "browser", isDelta: false,)
+/* 73.54 */}
+/* 73.55 */
+/* 73.56 */
+/* 73.57 */interface TestPackageExtension_TestCase_testGroupSwitchAppliesSwitchAwayPolicy {
+/* 73.58 */    func registerTestCase_testGroupSwitchAppliesSwitchAwayPolicy(): Unit
+/* 73.59 */}
+/* 73.60 */extend TestPackage <: TestPackageExtension_TestCase_testGroupSwitchAppliesSwitchAwayPolicy {
+/* 73.61 */    @Attribute[TEST_REGISTER]
+/* 73.62 */    public func registerTestCase_testGroupSwitchAppliesSwitchAwayPolicy() {
+/* 73.63 */        registerSuite({ => TestCase_testGroupSwitchAppliesSwitchAwayPolicy().asTestSuite() })
+/* 73.64 */    }
+/* 73.65 */}
+/* 73.66 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in dispatcher_test.cj:95:1 ===== */
+/* 95.1 */@Attribute[TEST_GENERATED] class TestCase_testGroupCycleWrapsAround <: TestClass {
+/* 95.2 */    init() {
+/* 95.3 */    }
+/* 95.4 */    private func classConfiguration(): Configuration {
+/* 95.5 */        let configuration = Configuration()
+/* 95.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 95.7 */        
+/* 95.8 */        return configuration
+/* 95.9 */    }
+/* 95.10 */    public override func asTestSuite(): TestSuite {
+/* 95.11 */        
+/* 95.12 */        let suiteConfiguration = classConfiguration()
+/* 95.13 */        let suiteBuilder = TestSuite.builder("TestCase_testGroupCycleWrapsAround").configure(suiteConfiguration)
+/* 95.14 */        
+/* 95.15 */        { => let caseConfig = Configuration()
+/* 95.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 95.17 */            
+/* 95.18 */            let testGroupCycleWrapsAroundTestFunc = { => testGroupCycleWrapsAround();() }
+/* 95.19 */            suiteBuilder.add(
+/* 95.20 */            UnitTestCase.create(
+/* 95.21 */            "testGroupCycleWrapsAround",
+/* 95.22 */            configuration: caseConfig,
+/* 95.23 */            body: testGroupCycleWrapsAroundTestFunc
+/* 95.24 */            )
+/* 95.25 */            )
+/* 95.26 */            
+/* 95.27 */        }()
+/* 95.28 */        
+/* 95.29 */        return suiteBuilder.build()
+/* 95.30 */    }
+/* 95.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 95.32 */        throw Exception("Unreachable code")
+/* 95.33 */    }
+/* 95.34 */}
+/* 95.35 */func testGroupCycleWrapsAround() {
+/* 95.36 */    let f = Fixture()
+/* 95.37 */    f.dispatcher.dispatch(Action.GroupActivate("coding"))
+/* 95.38 */    f.dispatcher.dispatch(Action.GroupCycleNext)
+/* 95.39 */    expectEqual("f.dispatcher.session.activeGroup", "\"browser\"", f.dispatcher.session.activeGroup, "browser", isDelta: false,)
+/* 95.40 */    f.dispatcher.dispatch(Action.GroupCycleNext)
+/* 95.41 */    expectEqual("f.dispatcher.session.activeGroup", "\"coding\"", f.dispatcher.session.activeGroup, "coding", isDelta: false,)
+/* 95.42 */    f.dispatcher.dispatch(Action.GroupCyclePrev)
+/* 95.43 */    expectEqual("f.dispatcher.session.activeGroup", "\"browser\"", f.dispatcher.session.activeGroup, "browser", isDelta: false,)
+/* 95.44 */}
+/* 95.45 */
+/* 95.46 */
+/* 95.47 */interface TestPackageExtension_TestCase_testGroupCycleWrapsAround {
+/* 95.48 */    func registerTestCase_testGroupCycleWrapsAround(): Unit
+/* 95.49 */}
+/* 95.50 */extend TestPackage <: TestPackageExtension_TestCase_testGroupCycleWrapsAround {
+/* 95.51 */    @Attribute[TEST_REGISTER]
+/* 95.52 */    public func registerTestCase_testGroupCycleWrapsAround() {
+/* 95.53 */        registerSuite({ => TestCase_testGroupCycleWrapsAround().asTestSuite() })
+/* 95.54 */    }
+/* 95.55 */}
+/* 95.56 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in dispatcher_test.cj:107:1 ===== */
+/* 107.1 */@Attribute[TEST_GENERATED] class TestCase_testSnapForegroundWindow <: TestClass {
+/* 107.2 */    init() {
+/* 107.3 */    }
+/* 107.4 */    private func classConfiguration(): Configuration {
+/* 107.5 */        let configuration = Configuration()
+/* 107.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 107.7 */        
+/* 107.8 */        return configuration
+/* 107.9 */    }
+/* 107.10 */    public override func asTestSuite(): TestSuite {
+/* 107.11 */        
+/* 107.12 */        let suiteConfiguration = classConfiguration()
+/* 107.13 */        let suiteBuilder = TestSuite.builder("TestCase_testSnapForegroundWindow").configure(suiteConfiguration)
+/* 107.14 */        
+/* 107.15 */        { => let caseConfig = Configuration()
+/* 107.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 107.17 */            
+/* 107.18 */            let testSnapForegroundWindowTestFunc = { => testSnapForegroundWindow();() }
+/* 107.19 */            suiteBuilder.add(
+/* 107.20 */            UnitTestCase.create(
+/* 107.21 */            "testSnapForegroundWindow",
+/* 107.22 */            configuration: caseConfig,
+/* 107.23 */            body: testSnapForegroundWindowTestFunc
+/* 107.24 */            )
+/* 107.25 */            )
+/* 107.26 */            
+/* 107.27 */        }()
+/* 107.28 */        
+/* 107.29 */        return suiteBuilder.build()
+/* 107.30 */    }
+/* 107.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 107.32 */        throw Exception("Unreachable code")
+/* 107.33 */    }
+/* 107.34 */}
+/* 107.35 */func testSnapForegroundWindow() {
+/* 107.36 */    let f = Fixture()
+/* 107.37 */    let id = f.backend.addWindow("editor.exe", "scratch")
+/* 107.38 */    f.backend.foreground = id
+/* 107.39 */    f.dispatcher.dispatch(Action.WindowSnap(SnapTarget.LeftHalf))
+/* 107.40 */    expectEqual("f.backend.placed.size", "1", f.backend.placed.size, 1, isDelta: false,)
+/* 107.41 */    expectEqual("f.backend.placed[0].rect.left", "0", f.backend.placed[0].rect.left, 0, isDelta: false,)
+/* 107.42 */    expectEqual("f.backend.placed[0].rect.right", "500", f.backend.placed[0].rect.right, 500, isDelta: false,)
+/* 107.43 */    expectEqual("f.backend.placed[0].rect.bottom", "600", f.backend.placed[0].rect.bottom, 600, isDelta: false,)
+/* 107.44 */}
+/* 107.45 */
+/* 107.46 */
+/* 107.47 */interface TestPackageExtension_TestCase_testSnapForegroundWindow {
+/* 107.48 */    func registerTestCase_testSnapForegroundWindow(): Unit
+/* 107.49 */}
+/* 107.50 */extend TestPackage <: TestPackageExtension_TestCase_testSnapForegroundWindow {
+/* 107.51 */    @Attribute[TEST_REGISTER]
+/* 107.52 */    public func registerTestCase_testSnapForegroundWindow() {
+/* 107.53 */        registerSuite({ => TestCase_testSnapForegroundWindow().asTestSuite() })
+/* 107.54 */    }
+/* 107.55 */}
+/* 107.56 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in dispatcher_test.cj:119:1 ===== */
+/* 119.1 */@Attribute[TEST_GENERATED] class TestCase_testWindowToGroupCurrent <: TestClass {
+/* 119.2 */    init() {
+/* 119.3 */    }
+/* 119.4 */    private func classConfiguration(): Configuration {
+/* 119.5 */        let configuration = Configuration()
+/* 119.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 119.7 */        
+/* 119.8 */        return configuration
+/* 119.9 */    }
+/* 119.10 */    public override func asTestSuite(): TestSuite {
+/* 119.11 */        
+/* 119.12 */        let suiteConfiguration = classConfiguration()
+/* 119.13 */        let suiteBuilder = TestSuite.builder("TestCase_testWindowToGroupCurrent").configure(suiteConfiguration)
+/* 119.14 */        
+/* 119.15 */        { => let caseConfig = Configuration()
+/* 119.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 119.17 */            
+/* 119.18 */            let testWindowToGroupCurrentTestFunc = { => testWindowToGroupCurrent();() }
+/* 119.19 */            suiteBuilder.add(
+/* 119.20 */            UnitTestCase.create(
+/* 119.21 */            "testWindowToGroupCurrent",
+/* 119.22 */            configuration: caseConfig,
+/* 119.23 */            body: testWindowToGroupCurrentTestFunc
+/* 119.24 */            )
+/* 119.25 */            )
+/* 119.26 */            
+/* 119.27 */        }()
+/* 119.28 */        
+/* 119.29 */        return suiteBuilder.build()
+/* 119.30 */    }
+/* 119.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 119.32 */        throw Exception("Unreachable code")
+/* 119.33 */    }
+/* 119.34 */}
+/* 119.35 */func testWindowToGroupCurrent() {
+/* 119.36 */    let f = Fixture()
+/* 119.37 */    f.dispatcher.dispatch(Action.Launch("dev-env"))
+/* 119.38 */    let extra = f.backend.addWindow("browser.exe", "extra")
+/* 119.39 */    f.backend.foreground = extra
+/* 119.40 */    f.dispatcher.dispatch(Action.WindowToGroup("current"))
+/* 119.41 */    
+/* 119.42 */    expectEqual("f.dispatcher.registry.membersOf(\"coding\").size", "3", f.dispatcher.registry.membersOf("coding").size, 3, isDelta: false,)
+/* 119.43 */    
+/* 119.44 */    expectEqual("f.backend.placed.size >= 3", "true", f.backend.placed.size >= 3, true, isDelta: false,)
+/* 119.45 */}
+/* 119.46 */
+/* 119.47 */
+/* 119.48 */interface TestPackageExtension_TestCase_testWindowToGroupCurrent {
+/* 119.49 */    func registerTestCase_testWindowToGroupCurrent(): Unit
+/* 119.50 */}
+/* 119.51 */extend TestPackage <: TestPackageExtension_TestCase_testWindowToGroupCurrent {
+/* 119.52 */    @Attribute[TEST_REGISTER]
+/* 119.53 */    public func registerTestCase_testWindowToGroupCurrent() {
+/* 119.54 */        registerSuite({ => TestCase_testWindowToGroupCurrent().asTestSuite() })
+/* 119.55 */    }
+/* 119.56 */}
+/* 119.57 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in dispatcher_test.cj:132:1 ===== */
+/* 132.1 */@Attribute[TEST_GENERATED] class TestCase_testReloadAndQuitFlags <: TestClass {
+/* 132.2 */    init() {
+/* 132.3 */    }
+/* 132.4 */    private func classConfiguration(): Configuration {
+/* 132.5 */        let configuration = Configuration()
+/* 132.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 132.7 */        
+/* 132.8 */        return configuration
+/* 132.9 */    }
+/* 132.10 */    public override func asTestSuite(): TestSuite {
+/* 132.11 */        
+/* 132.12 */        let suiteConfiguration = classConfiguration()
+/* 132.13 */        let suiteBuilder = TestSuite.builder("TestCase_testReloadAndQuitFlags").configure(suiteConfiguration)
+/* 132.14 */        
+/* 132.15 */        { => let caseConfig = Configuration()
+/* 132.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 132.17 */            
+/* 132.18 */            let testReloadAndQuitFlagsTestFunc = { => testReloadAndQuitFlags();() }
+/* 132.19 */            suiteBuilder.add(
+/* 132.20 */            UnitTestCase.create(
+/* 132.21 */            "testReloadAndQuitFlags",
+/* 132.22 */            configuration: caseConfig,
+/* 132.23 */            body: testReloadAndQuitFlagsTestFunc
+/* 132.24 */            )
+/* 132.25 */            )
+/* 132.26 */            
+/* 132.27 */        }()
+/* 132.28 */        
+/* 132.29 */        return suiteBuilder.build()
+/* 132.30 */    }
+/* 132.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 132.32 */        throw Exception("Unreachable code")
+/* 132.33 */    }
+/* 132.34 */}
+/* 132.35 */func testReloadAndQuitFlags() {
+/* 132.36 */    let f = Fixture()
+/* 132.37 */    f.dispatcher.dispatch(Action.ConfigReload)
+/* 132.38 */    assertEqual("f.dispatcher.reloadRequested", "true", f.dispatcher.reloadRequested, true, isDelta: false,)
+/* 132.39 */    f.dispatcher.dispatch(Action.Quit)
+/* 132.40 */    assertEqual("f.dispatcher.shouldQuit", "true", f.dispatcher.shouldQuit, true, isDelta: false,)
+/* 132.41 */}
+/* 132.42 */
+/* 132.43 */
+/* 132.44 */interface TestPackageExtension_TestCase_testReloadAndQuitFlags {
+/* 132.45 */    func registerTestCase_testReloadAndQuitFlags(): Unit
+/* 132.46 */}
+/* 132.47 */extend TestPackage <: TestPackageExtension_TestCase_testReloadAndQuitFlags {
+/* 132.48 */    @Attribute[TEST_REGISTER]
+/* 132.49 */    public func registerTestCase_testReloadAndQuitFlags() {
+/* 132.50 */        registerSuite({ => TestCase_testReloadAndQuitFlags().asTestSuite() })
+/* 132.51 */    }
+/* 132.52 */}
+/* 132.53 */
+/* ===== End of the Emit ===== */

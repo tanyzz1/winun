@@ -1,0 +1,12 @@
+target/
+spike/target/
+.cache/
+.testtarget/
+*.exe
+*.cjo
+o_*.txt
+out.txt
+err.txt
+probe_out.txt
+.smoketest.log
+.probe_*

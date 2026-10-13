@@ -1,0 +1,12 @@
+[package]
+  cjc-version = "1.0.5"
+  name = "winun"
+  version = "0.1.0"
+  description = "winun - config-driven window manager for Windows, written in Cangjie"
+  output-type = "executable"
+  src-dir = "src"
+  compile-option = "-O2 --warn-off all"
+  link-option = "-LC:/Windows/System32 -luser32 -lkernel32 -lole32 -lshell32 -ladvapi32 -ldwmapi"
+
+[target.x86_64-w64-mingw32]
+  link-option = "-LC:/Windows/System32 -luser32 -lkernel32 -lole32 -lshell32 -ladvapi32 -ldwmapi"

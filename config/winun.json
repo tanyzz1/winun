@@ -1,0 +1,196 @@
+{
+  "$schema": "./winun.schema.json",
+  "$comment": "本机（tanyz）实际安装路径版；WPS 路径含版本号，升级后需同步修改",
+  "$comment_hotkeys": "组合键是否可用取决于其它程序占用；运行 winun selftest --config config\\winun.json 逐条探测（探测前先退出正在运行的 winun）",
+  "version": 1,
+
+  "log": {
+    "level": "debug",
+    "file": "%APPDATA%\\winun\\logs\\winun.log",
+    "rotateKb": 2048
+  },
+
+  "behavior": {
+    "watchConfig": true,
+    "strict": false,
+    "startupGroup": "coding",
+    "defaultLayout": "main-side",
+    "commandTimeoutMs": 150
+  },
+
+  "hotkeys": {
+    "win+alt+f1": "launch dev-env",
+    "win+alt+f2": "launch browse",
+    "win+alt+f3": "launch office",
+    "win+alt+f4": "group cycle next",
+    "win+alt+q": "group cycle prev",
+    "win+alt+f5": "window to-group current",
+    "win+alt+f6": "window remove-from-group",
+    "win+alt+f7": "layout apply current",
+    "win+alt+f8": "window snap left-half",
+    "win+alt+f9": "window snap right-half",
+    "win+alt+f10": "window maximize",
+    "win+alt+f11": "window restore",
+    "win+alt+f12": "window float toggle",
+    "win+alt+e": "config reload",
+    "win+alt+z": "quit"
+  },
+
+  "apps": {
+    "vscode": {
+      "exe": "D:\\Microsoft VS Code\\Code.exe",
+      "cwd": "%USERPROFILE%",
+      "match": {
+        "exe": "Code.exe",
+        "title": ".*Visual Studio Code"
+      },
+      "startupWaitMs": 15000,
+      "reuse": "existing"
+    },
+    "terminal": {
+      "exe": "wt.exe",
+      "match": {
+        "exe": "WindowsTerminal.exe"
+      },
+      "startupWaitMs": 10000,
+      "reuse": "new"
+    },
+    "firefox": {
+      "exe": "D:\\Firefox Nightly\\firefox.exe",
+      "match": {
+        "exe": "firefox.exe"
+      },
+      "startupWaitMs": 15000,
+      "reuse": "existing"
+    },
+    "edge": {
+      "exe": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "match": {
+        "exe": "msedge.exe"
+      },
+      "startupWaitMs": 15000,
+      "reuse": "existing"
+    },
+    "wps": {
+      "exe": "D:\\WPS Office\\12.1.0.28505\\office6\\wps.exe",
+      "match": {
+        "exe": "wps.exe"
+      },
+      "startupWaitMs": 20000,
+      "reuse": "new"
+    },
+    "explorer": {
+      "exe": "explorer.exe",
+      "match": {
+        "exe": "explorer.exe",
+        "class": "CabinetWClass"
+      },
+      "startupWaitMs": 8000,
+      "reuse": "new"
+    },
+    "notepad": {
+      "exe": "notepad.exe",
+      "match": {
+        "exe": "Notepad.exe"
+      },
+      "startupWaitMs": 8000,
+      "reuse": "new"
+    },
+    "music": {
+      "exe": "D:\\CloudMusic\\cloudmusic.exe",
+      "match": {
+        "exe": "cloudmusic.exe"
+      },
+      "startupWaitMs": 15000,
+      "reuse": "existing"
+    }
+  },
+
+  "launches": {
+    "dev-env": {
+      "apps": ["vscode", "terminal", "firefox"],
+      "staggerMs": 500,
+      "group": "coding"
+    },
+    "browse": {
+      "apps": ["firefox", "edge"],
+      "staggerMs": 500,
+      "group": "browser"
+    },
+    "office": {
+      "apps": ["wps", "explorer"],
+      "staggerMs": 600,
+      "group": "office"
+    },
+    "scratch": {
+      "apps": ["notepad"],
+      "staggerMs": 0,
+      "group": "coding"
+    }
+  },
+
+  "layouts": {
+    "main-side": {
+      "type": "ratio",
+      "ratios": [0.68, 0.32],
+      "gap": 8,
+      "margins": [8, 8, 8, 8],
+      "monitor": "primary"
+    },
+    "two-columns": {
+      "type": "grid",
+      "columns": 2,
+      "rows": 1,
+      "gap": 8,
+      "margins": [8, 8, 8, 8],
+      "monitor": "primary",
+      "order": "listed"
+    },
+    "quad": {
+      "type": "absolute",
+      "cells": [[0, 0, 50, 50], [50, 0, 100, 50], [0, 50, 50, 100], [50, 50, 100, 100]],
+      "gap": 8,
+      "margins": [8, 8, 8, 8],
+      "monitor": "primary"
+    },
+    "focus": {
+      "type": "anchor",
+      "anchor": "center",
+      "size": ["90%", "90%"],
+      "monitor": "primary"
+    },
+    "left-half": {
+      "type": "anchor",
+      "anchor": "left",
+      "size": ["50%", "100%"],
+      "monitor": "primary"
+    }
+  },
+
+  "groups": {
+    "coding": {
+      "name": "编码组",
+      "layout": "main-side",
+      "apps": ["vscode", "terminal"],
+      "activate": "focus-last",
+      "onSwitchAway": "minimize",
+      "onActivate": "restore"
+    },
+    "browser": {
+      "name": "浏览组",
+      "layout": "quad",
+      "apps": ["firefox", "edge"],
+      "activate": "focus-first",
+      "onSwitchAway": "hide",
+      "onActivate": "restore"
+    },
+    "office": {
+      "name": "办公组",
+      "layout": "two-columns",
+      "apps": ["wps", "explorer"],
+      "activate": "focus-first",
+      "onSwitchAway": "minimize",
+      "onActivate": "restore"
+    }
+  }
+}

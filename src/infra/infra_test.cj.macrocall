@@ -1,0 +1,656 @@
+package winun.infra
+
+import std.unittest.*
+import std.unittest.testmacro.*
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:6:1 ===== */
+/* 6.1 */@Attribute[TEST_GENERATED] class TestCase_testJsonParseBasics <: TestClass {
+/* 6.2 */    init() {
+/* 6.3 */    }
+/* 6.4 */    private func classConfiguration(): Configuration {
+/* 6.5 */        let configuration = Configuration()
+/* 6.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 6.7 */        
+/* 6.8 */        return configuration
+/* 6.9 */    }
+/* 6.10 */    public override func asTestSuite(): TestSuite {
+/* 6.11 */        
+/* 6.12 */        let suiteConfiguration = classConfiguration()
+/* 6.13 */        let suiteBuilder = TestSuite.builder("TestCase_testJsonParseBasics").configure(suiteConfiguration)
+/* 6.14 */        
+/* 6.15 */        { => let caseConfig = Configuration()
+/* 6.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 6.17 */            
+/* 6.18 */            let testJsonParseBasicsTestFunc = { => testJsonParseBasics();() }
+/* 6.19 */            suiteBuilder.add(
+/* 6.20 */            UnitTestCase.create(
+/* 6.21 */            "testJsonParseBasics",
+/* 6.22 */            configuration: caseConfig,
+/* 6.23 */            body: testJsonParseBasicsTestFunc
+/* 6.24 */            )
+/* 6.25 */            )
+/* 6.26 */            
+/* 6.27 */        }()
+/* 6.28 */        
+/* 6.29 */        return suiteBuilder.build()
+/* 6.30 */    }
+/* 6.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 6.32 */        throw Exception("Unreachable code")
+/* 6.33 */    }
+/* 6.34 */}
+/* 6.35 */func testJsonParseBasics() {
+/* 6.36 */    let v = parseJson("""
+{"n": 42, "s": "中", "b": true, "arr": [1, 2]}
+""")
+/* 6.37 */    var ok = false
+/* 6.38 */    match(v) {
+/* 6.39 */        case JObj(m) =>
+/* 6.40 */        ok = m.size == 4
+/* 6.41 */        match(m["n"]) {
+/* 6.42 */            case JInt(i) => ok = ok && i == 42
+/* 6.43 */            case _ => ok = false
+/* 6.44 */        }
+/* 6.45 */        match(m["s"]) {
+/* 6.46 */            case JStr(s) => ok = ok && s == "中"
+/* 6.47 */            case _ => ok = false
+/* 6.48 */        }
+/* 6.49 */        match(m["b"]) {
+/* 6.50 */            case JBool(b) => ok = ok && b
+/* 6.51 */            case _ => ok = false
+/* 6.52 */        }
+/* 6.53 */        match(m["arr"]) {
+/* 6.54 */            case JArr(a) => ok = ok && a.size == 2
+/* 6.55 */            case _ => ok = false
+/* 6.56 */        }
+/* 6.57 */        case _ => ok = false
+/* 6.58 */    }
+/* 6.59 */    assertEqual("ok", "true", ok, true, isDelta: false,)
+/* 6.60 */}
+/* 6.61 */
+/* 6.62 */
+/* 6.63 */interface TestPackageExtension_TestCase_testJsonParseBasics {
+/* 6.64 */    func registerTestCase_testJsonParseBasics(): Unit
+/* 6.65 */}
+/* 6.66 */extend TestPackage <: TestPackageExtension_TestCase_testJsonParseBasics {
+/* 6.67 */    @Attribute[TEST_REGISTER]
+/* 6.68 */    public func registerTestCase_testJsonParseBasics() {
+/* 6.69 */        registerSuite({ => TestCase_testJsonParseBasics().asTestSuite() })
+/* 6.70 */    }
+/* 6.71 */}
+/* 6.72 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:36:1 ===== */
+/* 36.1 */@Attribute[TEST_GENERATED] class TestCase_testJsonRejectsDuplicateKey <: TestClass {
+/* 36.2 */    init() {
+/* 36.3 */    }
+/* 36.4 */    private func classConfiguration(): Configuration {
+/* 36.5 */        let configuration = Configuration()
+/* 36.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 36.7 */        
+/* 36.8 */        return configuration
+/* 36.9 */    }
+/* 36.10 */    public override func asTestSuite(): TestSuite {
+/* 36.11 */        
+/* 36.12 */        let suiteConfiguration = classConfiguration()
+/* 36.13 */        let suiteBuilder = TestSuite.builder("TestCase_testJsonRejectsDuplicateKey").configure(suiteConfiguration)
+/* 36.14 */        
+/* 36.15 */        { => let caseConfig = Configuration()
+/* 36.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 36.17 */            
+/* 36.18 */            let testJsonRejectsDuplicateKeyTestFunc = { => testJsonRejectsDuplicateKey();() }
+/* 36.19 */            suiteBuilder.add(
+/* 36.20 */            UnitTestCase.create(
+/* 36.21 */            "testJsonRejectsDuplicateKey",
+/* 36.22 */            configuration: caseConfig,
+/* 36.23 */            body: testJsonRejectsDuplicateKeyTestFunc
+/* 36.24 */            )
+/* 36.25 */            )
+/* 36.26 */            
+/* 36.27 */        }()
+/* 36.28 */        
+/* 36.29 */        return suiteBuilder.build()
+/* 36.30 */    }
+/* 36.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 36.32 */        throw Exception("Unreachable code")
+/* 36.33 */    }
+/* 36.34 */}
+/* 36.35 */func testJsonRejectsDuplicateKey() {
+/* 36.36 */    var caught = false
+/* 36.37 */    try {
+/* 36.38 */        let _ = parseJson("""
+{"a": 1, "a": 2}
+""")
+/* 36.39 */    } catch(e: JsonError) {
+/* 36.40 */        caught = true
+/* 36.41 */    }
+/* 36.42 */    assertEqual("caught", "true", caught, true, isDelta: false,)
+/* 36.43 */}
+/* 36.44 */
+/* 36.45 */
+/* 36.46 */interface TestPackageExtension_TestCase_testJsonRejectsDuplicateKey {
+/* 36.47 */    func registerTestCase_testJsonRejectsDuplicateKey(): Unit
+/* 36.48 */}
+/* 36.49 */extend TestPackage <: TestPackageExtension_TestCase_testJsonRejectsDuplicateKey {
+/* 36.50 */    @Attribute[TEST_REGISTER]
+/* 36.51 */    public func registerTestCase_testJsonRejectsDuplicateKey() {
+/* 36.52 */        registerSuite({ => TestCase_testJsonRejectsDuplicateKey().asTestSuite() })
+/* 36.53 */    }
+/* 36.54 */}
+/* 36.55 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:49:1 ===== */
+/* 49.1 */@Attribute[TEST_GENERATED] class TestCase_testJsonSyntaxErrorReportsLine <: TestClass {
+/* 49.2 */    init() {
+/* 49.3 */    }
+/* 49.4 */    private func classConfiguration(): Configuration {
+/* 49.5 */        let configuration = Configuration()
+/* 49.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 49.7 */        
+/* 49.8 */        return configuration
+/* 49.9 */    }
+/* 49.10 */    public override func asTestSuite(): TestSuite {
+/* 49.11 */        
+/* 49.12 */        let suiteConfiguration = classConfiguration()
+/* 49.13 */        let suiteBuilder = TestSuite.builder("TestCase_testJsonSyntaxErrorReportsLine").configure(suiteConfiguration)
+/* 49.14 */        
+/* 49.15 */        { => let caseConfig = Configuration()
+/* 49.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 49.17 */            
+/* 49.18 */            let testJsonSyntaxErrorReportsLineTestFunc = { => testJsonSyntaxErrorReportsLine();() }
+/* 49.19 */            suiteBuilder.add(
+/* 49.20 */            UnitTestCase.create(
+/* 49.21 */            "testJsonSyntaxErrorReportsLine",
+/* 49.22 */            configuration: caseConfig,
+/* 49.23 */            body: testJsonSyntaxErrorReportsLineTestFunc
+/* 49.24 */            )
+/* 49.25 */            )
+/* 49.26 */            
+/* 49.27 */        }()
+/* 49.28 */        
+/* 49.29 */        return suiteBuilder.build()
+/* 49.30 */    }
+/* 49.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 49.32 */        throw Exception("Unreachable code")
+/* 49.33 */    }
+/* 49.34 */}
+/* 49.35 */func testJsonSyntaxErrorReportsLine() {
+/* 49.36 */    var line: Int64 = 0
+/* 49.37 */    var caught = false
+/* 49.38 */    try {
+/* 49.39 */        let _ = parseJson("""
+{
+  "a": ,
+}
+""")
+/* 49.40 */    } catch(e: JsonError) {
+/* 49.41 */        line = e.line
+/* 49.42 */        caught = true
+/* 49.43 */    }
+/* 49.44 */    assertEqual("caught", "true", caught, true, isDelta: false,)
+/* 49.45 */    assertEqual("line >= 2 && line <= 5", "true", line >= 2 && line <= 5, true, isDelta: false,)
+/* 49.46 */}
+/* 49.47 */
+/* 49.48 */
+/* 49.49 */interface TestPackageExtension_TestCase_testJsonSyntaxErrorReportsLine {
+/* 49.50 */    func registerTestCase_testJsonSyntaxErrorReportsLine(): Unit
+/* 49.51 */}
+/* 49.52 */extend TestPackage <: TestPackageExtension_TestCase_testJsonSyntaxErrorReportsLine {
+/* 49.53 */    @Attribute[TEST_REGISTER]
+/* 49.54 */    public func registerTestCase_testJsonSyntaxErrorReportsLine() {
+/* 49.55 */        registerSuite({ => TestCase_testJsonSyntaxErrorReportsLine().asTestSuite() })
+/* 49.56 */    }
+/* 49.57 */}
+/* 49.58 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:67:1 ===== */
+/* 67.1 */@Attribute[TEST_GENERATED] class TestCase_testJsonRoundTrip <: TestClass {
+/* 67.2 */    init() {
+/* 67.3 */    }
+/* 67.4 */    private func classConfiguration(): Configuration {
+/* 67.5 */        let configuration = Configuration()
+/* 67.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 67.7 */        
+/* 67.8 */        return configuration
+/* 67.9 */    }
+/* 67.10 */    public override func asTestSuite(): TestSuite {
+/* 67.11 */        
+/* 67.12 */        let suiteConfiguration = classConfiguration()
+/* 67.13 */        let suiteBuilder = TestSuite.builder("TestCase_testJsonRoundTrip").configure(suiteConfiguration)
+/* 67.14 */        
+/* 67.15 */        { => let caseConfig = Configuration()
+/* 67.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 67.17 */            
+/* 67.18 */            let testJsonRoundTripTestFunc = { => testJsonRoundTrip();() }
+/* 67.19 */            suiteBuilder.add(
+/* 67.20 */            UnitTestCase.create(
+/* 67.21 */            "testJsonRoundTrip",
+/* 67.22 */            configuration: caseConfig,
+/* 67.23 */            body: testJsonRoundTripTestFunc
+/* 67.24 */            )
+/* 67.25 */            )
+/* 67.26 */            
+/* 67.27 */        }()
+/* 67.28 */        
+/* 67.29 */        return suiteBuilder.build()
+/* 67.30 */    }
+/* 67.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 67.32 */        throw Exception("Unreachable code")
+/* 67.33 */    }
+/* 67.34 */}
+/* 67.35 */func testJsonRoundTrip() {
+/* 67.36 */    let text = """
+{"a": [1, 2, 3], "b": {"c": "d"}, "e": null, "f": false}
+"""
+/* 67.37 */    let v = parseJson(text)
+/* 67.38 */    let out = toJsonText(v, 0)
+/* 67.39 */    let v2 = parseJson(out)
+/* 67.40 */    expectEqual("toJsonText(v2, 0)", "out", toJsonText(v2, 0), out, isDelta: false,)
+/* 67.41 */}
+/* 67.42 */
+/* 67.43 */
+/* 67.44 */interface TestPackageExtension_TestCase_testJsonRoundTrip {
+/* 67.45 */    func registerTestCase_testJsonRoundTrip(): Unit
+/* 67.46 */}
+/* 67.47 */extend TestPackage <: TestPackageExtension_TestCase_testJsonRoundTrip {
+/* 67.48 */    @Attribute[TEST_REGISTER]
+/* 67.49 */    public func registerTestCase_testJsonRoundTrip() {
+/* 67.50 */        registerSuite({ => TestCase_testJsonRoundTrip().asTestSuite() })
+/* 67.51 */    }
+/* 67.52 */}
+/* 67.53 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:78:1 ===== */
+/* 78.1 */@Attribute[TEST_GENERATED] class TestCase_testJsonEscapes <: TestClass {
+/* 78.2 */    init() {
+/* 78.3 */    }
+/* 78.4 */    private func classConfiguration(): Configuration {
+/* 78.5 */        let configuration = Configuration()
+/* 78.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 78.7 */        
+/* 78.8 */        return configuration
+/* 78.9 */    }
+/* 78.10 */    public override func asTestSuite(): TestSuite {
+/* 78.11 */        
+/* 78.12 */        let suiteConfiguration = classConfiguration()
+/* 78.13 */        let suiteBuilder = TestSuite.builder("TestCase_testJsonEscapes").configure(suiteConfiguration)
+/* 78.14 */        
+/* 78.15 */        { => let caseConfig = Configuration()
+/* 78.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 78.17 */            
+/* 78.18 */            let testJsonEscapesTestFunc = { => testJsonEscapes();() }
+/* 78.19 */            suiteBuilder.add(
+/* 78.20 */            UnitTestCase.create(
+/* 78.21 */            "testJsonEscapes",
+/* 78.22 */            configuration: caseConfig,
+/* 78.23 */            body: testJsonEscapesTestFunc
+/* 78.24 */            )
+/* 78.25 */            )
+/* 78.26 */            
+/* 78.27 */        }()
+/* 78.28 */        
+/* 78.29 */        return suiteBuilder.build()
+/* 78.30 */    }
+/* 78.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 78.32 */        throw Exception("Unreachable code")
+/* 78.33 */    }
+/* 78.34 */}
+/* 78.35 */func testJsonEscapes() {
+/* 78.36 */    
+/* 78.37 */    let q = String.fromUtf8([0x22])
+/* 78.38 */    let bs = String.fromUtf8([0x5C])
+/* 78.39 */    let text = "{" + q + "p" + q + ": " + q + "C:" + bs + bs + "dir" + q + "}"
+/* 78.40 */    let v = parseJson(text)
+/* 78.41 */    var ok = false
+/* 78.42 */    match(v) {
+/* 78.43 */        case JObj(m) =>
+/* 78.44 */        match(m.get("p")) {
+/* 78.45 */            case Some(JStr(s)) => ok = s == "C:" + bs + "dir"
+/* 78.46 */            case _ => ok = false
+/* 78.47 */        }
+/* 78.48 */        case _ => ok = false
+/* 78.49 */    }
+/* 78.50 */    assertEqual("ok", "true", ok, true, isDelta: false,)
+/* 78.51 */}
+/* 78.52 */
+/* 78.53 */
+/* 78.54 */interface TestPackageExtension_TestCase_testJsonEscapes {
+/* 78.55 */    func registerTestCase_testJsonEscapes(): Unit
+/* 78.56 */}
+/* 78.57 */extend TestPackage <: TestPackageExtension_TestCase_testJsonEscapes {
+/* 78.58 */    @Attribute[TEST_REGISTER]
+/* 78.59 */    public func registerTestCase_testJsonEscapes() {
+/* 78.60 */        registerSuite({ => TestCase_testJsonEscapes().asTestSuite() })
+/* 78.61 */    }
+/* 78.62 */}
+/* 78.63 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:97:1 ===== */
+/* 97.1 */@Attribute[TEST_GENERATED] class TestCase_testUtf16RoundTrip <: TestClass {
+/* 97.2 */    init() {
+/* 97.3 */    }
+/* 97.4 */    private func classConfiguration(): Configuration {
+/* 97.5 */        let configuration = Configuration()
+/* 97.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 97.7 */        
+/* 97.8 */        return configuration
+/* 97.9 */    }
+/* 97.10 */    public override func asTestSuite(): TestSuite {
+/* 97.11 */        
+/* 97.12 */        let suiteConfiguration = classConfiguration()
+/* 97.13 */        let suiteBuilder = TestSuite.builder("TestCase_testUtf16RoundTrip").configure(suiteConfiguration)
+/* 97.14 */        
+/* 97.15 */        { => let caseConfig = Configuration()
+/* 97.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 97.17 */            
+/* 97.18 */            let testUtf16RoundTripTestFunc = { => testUtf16RoundTrip();() }
+/* 97.19 */            suiteBuilder.add(
+/* 97.20 */            UnitTestCase.create(
+/* 97.21 */            "testUtf16RoundTrip",
+/* 97.22 */            configuration: caseConfig,
+/* 97.23 */            body: testUtf16RoundTripTestFunc
+/* 97.24 */            )
+/* 97.25 */            )
+/* 97.26 */            
+/* 97.27 */        }()
+/* 97.28 */        
+/* 97.29 */        return suiteBuilder.build()
+/* 97.30 */    }
+/* 97.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 97.32 */        throw Exception("Unreachable code")
+/* 97.33 */    }
+/* 97.34 */}
+/* 97.35 */func testUtf16RoundTrip() {
+/* 97.36 */    let s = "winun 中文 😀 test"
+/* 97.37 */    let u = utf16Encode(s)
+/* 97.38 */    expectEqual("utf16Decode(u, u.size)", "s", utf16Decode(u, u.size), s, isDelta: false,)
+/* 97.39 */}
+/* 97.40 */
+/* 97.41 */
+/* 97.42 */interface TestPackageExtension_TestCase_testUtf16RoundTrip {
+/* 97.43 */    func registerTestCase_testUtf16RoundTrip(): Unit
+/* 97.44 */}
+/* 97.45 */extend TestPackage <: TestPackageExtension_TestCase_testUtf16RoundTrip {
+/* 97.46 */    @Attribute[TEST_REGISTER]
+/* 97.47 */    public func registerTestCase_testUtf16RoundTrip() {
+/* 97.48 */        registerSuite({ => TestCase_testUtf16RoundTrip().asTestSuite() })
+/* 97.49 */    }
+/* 97.50 */}
+/* 97.51 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:104:1 ===== */
+/* 104.1 */@Attribute[TEST_GENERATED] class TestCase_testExpandEnvKeepsUnknownVariable <: TestClass {
+/* 104.2 */    init() {
+/* 104.3 */    }
+/* 104.4 */    private func classConfiguration(): Configuration {
+/* 104.5 */        let configuration = Configuration()
+/* 104.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 104.7 */        
+/* 104.8 */        return configuration
+/* 104.9 */    }
+/* 104.10 */    public override func asTestSuite(): TestSuite {
+/* 104.11 */        
+/* 104.12 */        let suiteConfiguration = classConfiguration()
+/* 104.13 */        let suiteBuilder = TestSuite.builder("TestCase_testExpandEnvKeepsUnknownVariable").configure(suiteConfiguration)
+/* 104.14 */        
+/* 104.15 */        { => let caseConfig = Configuration()
+/* 104.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 104.17 */            
+/* 104.18 */            let testExpandEnvKeepsUnknownVariableTestFunc = { => testExpandEnvKeepsUnknownVariable();() }
+/* 104.19 */            suiteBuilder.add(
+/* 104.20 */            UnitTestCase.create(
+/* 104.21 */            "testExpandEnvKeepsUnknownVariable",
+/* 104.22 */            configuration: caseConfig,
+/* 104.23 */            body: testExpandEnvKeepsUnknownVariableTestFunc
+/* 104.24 */            )
+/* 104.25 */            )
+/* 104.26 */            
+/* 104.27 */        }()
+/* 104.28 */        
+/* 104.29 */        return suiteBuilder.build()
+/* 104.30 */    }
+/* 104.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 104.32 */        throw Exception("Unreachable code")
+/* 104.33 */    }
+/* 104.34 */}
+/* 104.35 */func testExpandEnvKeepsUnknownVariable() {
+/* 104.36 */    expectEqual("expandEnv(\"%NO_SUCH_VAR_XYZ%\\\\a\")", "\"%NO_SUCH_VAR_XYZ%\\\\a\"", expandEnv("%NO_SUCH_VAR_XYZ%\\a"), "%NO_SUCH_VAR_XYZ%\\a", isDelta: false,)
+/* 104.37 */}
+/* 104.38 */
+/* 104.39 */
+/* 104.40 */interface TestPackageExtension_TestCase_testExpandEnvKeepsUnknownVariable {
+/* 104.41 */    func registerTestCase_testExpandEnvKeepsUnknownVariable(): Unit
+/* 104.42 */}
+/* 104.43 */extend TestPackage <: TestPackageExtension_TestCase_testExpandEnvKeepsUnknownVariable {
+/* 104.44 */    @Attribute[TEST_REGISTER]
+/* 104.45 */    public func registerTestCase_testExpandEnvKeepsUnknownVariable() {
+/* 104.46 */        registerSuite({ => TestCase_testExpandEnvKeepsUnknownVariable().asTestSuite() })
+/* 104.47 */    }
+/* 104.48 */}
+/* 104.49 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:109:1 ===== */
+/* 109.1 */@Attribute[TEST_GENERATED] class TestCase_testTruncateUtf8KeepsBoundary <: TestClass {
+/* 109.2 */    init() {
+/* 109.3 */    }
+/* 109.4 */    private func classConfiguration(): Configuration {
+/* 109.5 */        let configuration = Configuration()
+/* 109.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 109.7 */        
+/* 109.8 */        return configuration
+/* 109.9 */    }
+/* 109.10 */    public override func asTestSuite(): TestSuite {
+/* 109.11 */        
+/* 109.12 */        let suiteConfiguration = classConfiguration()
+/* 109.13 */        let suiteBuilder = TestSuite.builder("TestCase_testTruncateUtf8KeepsBoundary").configure(suiteConfiguration)
+/* 109.14 */        
+/* 109.15 */        { => let caseConfig = Configuration()
+/* 109.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 109.17 */            
+/* 109.18 */            let testTruncateUtf8KeepsBoundaryTestFunc = { => testTruncateUtf8KeepsBoundary();() }
+/* 109.19 */            suiteBuilder.add(
+/* 109.20 */            UnitTestCase.create(
+/* 109.21 */            "testTruncateUtf8KeepsBoundary",
+/* 109.22 */            configuration: caseConfig,
+/* 109.23 */            body: testTruncateUtf8KeepsBoundaryTestFunc
+/* 109.24 */            )
+/* 109.25 */            )
+/* 109.26 */            
+/* 109.27 */        }()
+/* 109.28 */        
+/* 109.29 */        return suiteBuilder.build()
+/* 109.30 */    }
+/* 109.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 109.32 */        throw Exception("Unreachable code")
+/* 109.33 */    }
+/* 109.34 */}
+/* 109.35 */func testTruncateUtf8KeepsBoundary() {
+/* 109.36 */    let s = "中文abc"
+/* 109.37 */    expectEqual("truncateUtf8(s, 3)", "\"中\"", truncateUtf8(s, 3), "中", isDelta: false,)
+/* 109.38 */    expectEqual("truncateUtf8(s, 4)", "\"中\"", truncateUtf8(s, 4), "中", isDelta: false,)
+/* 109.39 */    expectEqual("truncateUtf8(s, 6)", "\"中文\"", truncateUtf8(s, 6), "中文", isDelta: false,)
+/* 109.40 */    expectEqual("truncateUtf8(s, 100)", "s", truncateUtf8(s, 100), s, isDelta: false,)
+/* 109.41 */}
+/* 109.42 */
+/* 109.43 */
+/* 109.44 */interface TestPackageExtension_TestCase_testTruncateUtf8KeepsBoundary {
+/* 109.45 */    func registerTestCase_testTruncateUtf8KeepsBoundary(): Unit
+/* 109.46 */}
+/* 109.47 */extend TestPackage <: TestPackageExtension_TestCase_testTruncateUtf8KeepsBoundary {
+/* 109.48 */    @Attribute[TEST_REGISTER]
+/* 109.49 */    public func registerTestCase_testTruncateUtf8KeepsBoundary() {
+/* 109.50 */        registerSuite({ => TestCase_testTruncateUtf8KeepsBoundary().asTestSuite() })
+/* 109.51 */    }
+/* 109.52 */}
+/* 109.53 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:118:1 ===== */
+/* 118.1 */@Attribute[TEST_GENERATED] class TestCase_testUtf16DecodeHandlesLoneSurrogate <: TestClass {
+/* 118.2 */    init() {
+/* 118.3 */    }
+/* 118.4 */    private func classConfiguration(): Configuration {
+/* 118.5 */        let configuration = Configuration()
+/* 118.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 118.7 */        
+/* 118.8 */        return configuration
+/* 118.9 */    }
+/* 118.10 */    public override func asTestSuite(): TestSuite {
+/* 118.11 */        
+/* 118.12 */        let suiteConfiguration = classConfiguration()
+/* 118.13 */        let suiteBuilder = TestSuite.builder("TestCase_testUtf16DecodeHandlesLoneSurrogate").configure(suiteConfiguration)
+/* 118.14 */        
+/* 118.15 */        { => let caseConfig = Configuration()
+/* 118.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 118.17 */            
+/* 118.18 */            let testUtf16DecodeHandlesLoneSurrogateTestFunc = { => testUtf16DecodeHandlesLoneSurrogate();() }
+/* 118.19 */            suiteBuilder.add(
+/* 118.20 */            UnitTestCase.create(
+/* 118.21 */            "testUtf16DecodeHandlesLoneSurrogate",
+/* 118.22 */            configuration: caseConfig,
+/* 118.23 */            body: testUtf16DecodeHandlesLoneSurrogateTestFunc
+/* 118.24 */            )
+/* 118.25 */            )
+/* 118.26 */            
+/* 118.27 */        }()
+/* 118.28 */        
+/* 118.29 */        return suiteBuilder.build()
+/* 118.30 */    }
+/* 118.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 118.32 */        throw Exception("Unreachable code")
+/* 118.33 */    }
+/* 118.34 */}
+/* 118.35 */func testUtf16DecodeHandlesLoneSurrogate() {
+/* 118.36 */    
+/* 118.37 */    let units: Array < UInt16 >=[0xD800, 0x41]
+/* 118.38 */    let s = utf16Decode(units, units.size)
+/* 118.39 */    assertEqual("s.endsWith(\"A\")", "true", s.endsWith("A"), true, isDelta: false,)
+/* 118.40 */    let units2: Array < UInt16 >=[0xDC00, 0x42]
+/* 118.41 */    let s2 = utf16Decode(units2, units2.size)
+/* 118.42 */    assertEqual("s2.endsWith(\"B\")", "true", s2.endsWith("B"), true, isDelta: false,)
+/* 118.43 */}
+/* 118.44 */
+/* 118.45 */
+/* 118.46 */interface TestPackageExtension_TestCase_testUtf16DecodeHandlesLoneSurrogate {
+/* 118.47 */    func registerTestCase_testUtf16DecodeHandlesLoneSurrogate(): Unit
+/* 118.48 */}
+/* 118.49 */extend TestPackage <: TestPackageExtension_TestCase_testUtf16DecodeHandlesLoneSurrogate {
+/* 118.50 */    @Attribute[TEST_REGISTER]
+/* 118.51 */    public func registerTestCase_testUtf16DecodeHandlesLoneSurrogate() {
+/* 118.52 */        registerSuite({ => TestCase_testUtf16DecodeHandlesLoneSurrogate().asTestSuite() })
+/* 118.53 */    }
+/* 118.54 */}
+/* 118.55 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:129:1 ===== */
+/* 129.1 */@Attribute[TEST_GENERATED] class TestCase_testExpandEnvPreservesMultiByte <: TestClass {
+/* 129.2 */    init() {
+/* 129.3 */    }
+/* 129.4 */    private func classConfiguration(): Configuration {
+/* 129.5 */        let configuration = Configuration()
+/* 129.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 129.7 */        
+/* 129.8 */        return configuration
+/* 129.9 */    }
+/* 129.10 */    public override func asTestSuite(): TestSuite {
+/* 129.11 */        
+/* 129.12 */        let suiteConfiguration = classConfiguration()
+/* 129.13 */        let suiteBuilder = TestSuite.builder("TestCase_testExpandEnvPreservesMultiByte").configure(suiteConfiguration)
+/* 129.14 */        
+/* 129.15 */        { => let caseConfig = Configuration()
+/* 129.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 129.17 */            
+/* 129.18 */            let testExpandEnvPreservesMultiByteTestFunc = { => testExpandEnvPreservesMultiByte();() }
+/* 129.19 */            suiteBuilder.add(
+/* 129.20 */            UnitTestCase.create(
+/* 129.21 */            "testExpandEnvPreservesMultiByte",
+/* 129.22 */            configuration: caseConfig,
+/* 129.23 */            body: testExpandEnvPreservesMultiByteTestFunc
+/* 129.24 */            )
+/* 129.25 */            )
+/* 129.26 */            
+/* 129.27 */        }()
+/* 129.28 */        
+/* 129.29 */        return suiteBuilder.build()
+/* 129.30 */    }
+/* 129.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 129.32 */        throw Exception("Unreachable code")
+/* 129.33 */    }
+/* 129.34 */}
+/* 129.35 */func testExpandEnvPreservesMultiByte() {
+/* 129.36 */    expectEqual("expandEnv(\"前缀%NO_SUCH_VAR%后缀\")", "\"前缀%NO_SUCH_VAR%后缀\"", expandEnv("前缀%NO_SUCH_VAR%后缀"), "前缀%NO_SUCH_VAR%后缀", isDelta: false,)
+/* 129.37 */}
+/* 129.38 */
+/* 129.39 */
+/* 129.40 */interface TestPackageExtension_TestCase_testExpandEnvPreservesMultiByte {
+/* 129.41 */    func registerTestCase_testExpandEnvPreservesMultiByte(): Unit
+/* 129.42 */}
+/* 129.43 */extend TestPackage <: TestPackageExtension_TestCase_testExpandEnvPreservesMultiByte {
+/* 129.44 */    @Attribute[TEST_REGISTER]
+/* 129.45 */    public func registerTestCase_testExpandEnvPreservesMultiByte() {
+/* 129.46 */        registerSuite({ => TestCase_testExpandEnvPreservesMultiByte().asTestSuite() })
+/* 129.47 */    }
+/* 129.48 */}
+/* 129.49 */
+/* ===== End of the Emit ===== */
+
+/* ===== Emitted by MacroCall @Test in infra_test.cj:134:1 ===== */
+/* 134.1 */@Attribute[TEST_GENERATED] class TestCase_testFileNameHelpers <: TestClass {
+/* 134.2 */    init() {
+/* 134.3 */    }
+/* 134.4 */    private func classConfiguration(): Configuration {
+/* 134.5 */        let configuration = Configuration()
+/* 134.6 */        configuration.set(KeyFromTopLevel.fromTopLevel, true)
+/* 134.7 */        
+/* 134.8 */        return configuration
+/* 134.9 */    }
+/* 134.10 */    public override func asTestSuite(): TestSuite {
+/* 134.11 */        
+/* 134.12 */        let suiteConfiguration = classConfiguration()
+/* 134.13 */        let suiteBuilder = TestSuite.builder("TestCase_testFileNameHelpers").configure(suiteConfiguration)
+/* 134.14 */        
+/* 134.15 */        { => let caseConfig = Configuration()
+/* 134.16 */            caseConfig.set(KeyFromTopLevel.fromTopLevel, true)
+/* 134.17 */            
+/* 134.18 */            let testFileNameHelpersTestFunc = { => testFileNameHelpers();() }
+/* 134.19 */            suiteBuilder.add(
+/* 134.20 */            UnitTestCase.create(
+/* 134.21 */            "testFileNameHelpers",
+/* 134.22 */            configuration: caseConfig,
+/* 134.23 */            body: testFileNameHelpersTestFunc
+/* 134.24 */            )
+/* 134.25 */            )
+/* 134.26 */            
+/* 134.27 */        }()
+/* 134.28 */        
+/* 134.29 */        return suiteBuilder.build()
+/* 134.30 */    }
+/* 134.31 */    private func inheritedFromClassAnnotatedByTestTemplate < T >(): TestSuite where T <: TestClass {
+/* 134.32 */        throw Exception("Unreachable code")
+/* 134.33 */    }
+/* 134.34 */}
+/* 134.35 */func testFileNameHelpers() {
+/* 134.36 */    expectEqual("fileNameOf(\"C:\\\\Program Files\\\\App\\\\app.exe\")", "\"app.exe\"", fileNameOf("C:\\Program Files\\App\\app.exe"), "app.exe", isDelta: false,)
+/* 134.37 */    expectEqual("stripExtension(\"app.exe\")", "\"app\"", stripExtension("app.exe"), "app", isDelta: false,)
+/* 134.38 */    assertEqual("equalsIgnoreCase(\"Code.EXE\", \"code.exe\")", "true", equalsIgnoreCase("Code.EXE", "code.exe"), true, isDelta: false,)
+/* 134.39 */}
+/* 134.40 */
+/* 134.41 */
+/* 134.42 */interface TestPackageExtension_TestCase_testFileNameHelpers {
+/* 134.43 */    func registerTestCase_testFileNameHelpers(): Unit
+/* 134.44 */}
+/* 134.45 */extend TestPackage <: TestPackageExtension_TestCase_testFileNameHelpers {
+/* 134.46 */    @Attribute[TEST_REGISTER]
+/* 134.47 */    public func registerTestCase_testFileNameHelpers() {
+/* 134.48 */        registerSuite({ => TestCase_testFileNameHelpers().asTestSuite() })
+/* 134.49 */    }
+/* 134.50 */}
+/* 134.51 */
+/* ===== End of the Emit ===== */
